@@ -1,18 +1,22 @@
 import { FC } from "react";
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet, ViewProps } from "react-native";
 import LoadingSpinner from "./LoadingSpinner";
 
-interface Props {
+interface Props extends ViewProps {
   isLoading?: boolean;
   onPress: VoidFunction;
   cta: string;
 }
 
-const CustomButton: FC<Props> = ({ isLoading, onPress, cta }) => {
+const CustomButton: FC<Props> = ({ isLoading, onPress, cta, style }) => {
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && styles.buttonPressed,
+        style
+      ]}
     >
       {isLoading ? (
         <LoadingSpinner />

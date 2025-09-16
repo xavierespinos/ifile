@@ -19,12 +19,11 @@ const HomeScreen = () => {
             <View style={styles.dividerContainer}>
               <Divider />
             </View>
-            <View style={styles.buttonContainer}>
-              <CustomButton
-                cta="+ Add document"
-                onPress={() => console.log("Button Pressed")}
-              />
-            </View>
+            <CustomButton
+              cta="+ Add document"
+              onPress={() => console.log("Button Pressed")}
+              style={styles.button}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
   dividerContainer: {
     marginHorizontal: -20,
   },
-  buttonContainer: {
-    marginTop: 0,
+  button: {
+    marginTop: 10,
   },
 });
