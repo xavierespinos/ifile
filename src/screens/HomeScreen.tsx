@@ -1,10 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import DocumentsHeader from "../components/DocumentsHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../components/Button";
 import Divider from "../components/Divider";
+import { fetchDocuments } from "../api/api";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../components/LoadingSpinner";
+import DocumentCard from "../components/DocumentCard";
 
 const HomeScreen = () => {
+  const { isPending, data, error } = useQuery({
+    queryKey: ["documents"],
+    queryFn: fetchDocuments,
+  });
+
+  console.log({ isPending, data, error });
+
   return (
     <>
       <SafeAreaView style={styles.topSafeArea} edges={["top"]} />
@@ -14,7 +25,21 @@ const HomeScreen = () => {
       >
         <DocumentsHeader />
         <View style={styles.content}>
-          <Text style={styles.title}>Home Screen</Text>
+          <ScrollView>
+            {isPending ? (
+              <LoadingSpinner />
+            ) : (
+              <>
+                <Text style={styles.title}>Your Documents</Text>
+                {data?.length === 0 ? (
+                  <Text>No documents available.</Text>
+                ) : (
+                  data?.map((doc) => <DocumentCard document={doc} />)
+                )}
+              </>
+            )}
+          </ScrollView>
+
           <View>
             <View style={styles.dividerContainer}>
               <Divider />
