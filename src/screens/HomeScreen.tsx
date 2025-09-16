@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import DocumentsHeader from "../components/DocumentsHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CustomButton from "../components/Button";
+import Divider from "../components/Divider";
 
 const HomeScreen = () => {
   return (
@@ -13,6 +15,17 @@ const HomeScreen = () => {
         <DocumentsHeader />
         <View style={styles.content}>
           <Text style={styles.title}>Home Screen</Text>
+          <View>
+            <View style={styles.dividerContainer}>
+              <Divider />
+            </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                cta="+ Add document"
+                onPress={() => console.log("Button Pressed")}
+              />
+            </View>
+          </View>
         </View>
       </SafeAreaView>
     </>
@@ -35,6 +48,14 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   content: {
-    padding: 20,
+    paddingHorizontal: 20,
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  dividerContainer: {
+    marginHorizontal: -20,
+  },
+  buttonContainer: {
+    marginTop: 0,
   },
 });
