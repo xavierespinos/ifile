@@ -1,12 +1,21 @@
-import js from '@eslint/js';
-import typescript from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactNative from 'eslint-plugin-react-native';
+const js = require('@eslint/js');
+const typescript = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const reactNative = require('eslint-plugin-react-native');
 
-export default [
+module.exports = [
   js.configs.recommended,
+  {
+    files: ['eslint.config.js'],
+    languageOptions: {
+      globals: {
+        require: 'readonly',
+        module: 'readonly',
+      },
+    },
+  },
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -17,6 +26,12 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        fetch: 'readonly',
+        console: 'readonly',
+        VoidFunction: 'readonly',
+        React: 'readonly',
       },
     },
     plugins: {

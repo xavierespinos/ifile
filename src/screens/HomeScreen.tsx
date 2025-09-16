@@ -14,8 +14,6 @@ const HomeScreen = () => {
     queryFn: fetchDocuments,
   });
 
-  console.log({ isPending, data, error });
-
   return (
     <>
       <SafeAreaView style={styles.topSafeArea} edges={["top"]} />
@@ -25,16 +23,20 @@ const HomeScreen = () => {
       >
         <DocumentsHeader />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView
+            style={styles.documentsContainer}
+            showsVerticalScrollIndicator={false}
+          >
             {isPending ? (
               <LoadingSpinner />
             ) : (
               <>
-                <Text style={styles.title}>Your Documents</Text>
                 {data?.length === 0 ? (
                   <Text>No documents available.</Text>
                 ) : (
-                  data?.map((doc) => <DocumentCard document={doc} />)
+                  data?.map((doc) => (
+                    <DocumentCard key={doc.id} document={doc} />
+                  ))
                 )}
               </>
             )}
@@ -66,11 +68,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f3f2f2ff",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 20,
-  },
   content: {
     paddingHorizontal: 20,
     flex: 1,
@@ -81,5 +78,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+  },
+  documentsContainer: {
+    paddingTop: 20,
+    flex: 1,
+    width: "100%",
   },
 });
