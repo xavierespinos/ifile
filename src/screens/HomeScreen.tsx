@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import DocumentsHeader from "../components/DocumentsHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../components/Button";
@@ -9,7 +9,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import DocumentCard from "../components/DocumentCard";
 
 const HomeScreen = () => {
-  const { isPending, data, error } = useQuery({
+  const { isPending, data, error, refetch, isRefetching } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
   });
@@ -23,24 +23,28 @@ const HomeScreen = () => {
       >
         <DocumentsHeader />
         <View style={styles.content}>
-          <ScrollView
-            style={styles.documentsContainer}
-            showsVerticalScrollIndicator={false}
-          >
-            {isPending ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                {data?.length === 0 ? (
-                  <Text>No documents available.</Text>
-                ) : (
-                  data?.map((doc) => (
-                    <DocumentCard key={doc.id} document={doc} />
-                  ))
-                )}
-              </>
-            )}
-          </ScrollView>
+          {isPending ? (
+            <View style={styles.loadingContainer}>
+              <LoadingSpinner color="blue" />
+            </View>
+          ) : (
+            <>
+              <FlatList
+                style={styles.documentsContainer}
+                data={data || []}
+                renderItem={({ item }) => <DocumentCard document={item} />}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={<Text>No documents available.</Text>}
+                refreshControl={
+                  <RefreshControl
+                    onRefresh={() => refetch()}
+                    refreshing={isRefetching}
+                  />
+                }
+              />
+            </>
+          )}
 
           <View>
             <View style={styles.dividerContainer}>
@@ -48,7 +52,7 @@ const HomeScreen = () => {
             </View>
             <CustomButton
               cta="+ Add document"
-              onPress={() => console.log("Button Pressed")}
+              onPress={() => {}}
               style={styles.button}
             />
           </View>
@@ -83,5 +87,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     flex: 1,
     width: "100%",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
