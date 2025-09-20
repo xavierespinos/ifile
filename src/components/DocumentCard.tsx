@@ -20,8 +20,8 @@ const DocumentCard: FC<Props> = ({ document }) => {
             <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
             <Text style={styles.subtitle}>Contributors</Text>
           </View>
-          {document.contributors.map((contributor) => (
-            <Text key={contributor.id} style={styles.detail}>
+          {document.contributors.map((contributor, index) => (
+            <Text key={`${document.id}-contributor-${index}`} style={styles.detail}>
               {contributor.name}
             </Text>
           ))}
@@ -31,8 +31,8 @@ const DocumentCard: FC<Props> = ({ document }) => {
             <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
             <Text style={styles.subtitle}>Attachments</Text>
           </View>
-          {document.attachments.map((attachment) => (
-            <Text key={attachment} style={styles.detail}>
+          {document.attachments.map((attachment, index) => (
+            <Text key={`${document.id}-attachment-${index}`} style={styles.detail}>
               {attachment}
             </Text>
           ))}
