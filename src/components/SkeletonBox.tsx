@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { ViewStyle, DimensionValue } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,9 +9,9 @@ import Animated, {
 } from "react-native-reanimated";
 
 interface SkeletonBoxProps {
-  width: number | string;
+  width: DimensionValue;
   height: number;
-  style?: any;
+  style?: ViewStyle | ViewStyle[];
 }
 
 const SkeletonBox = ({ width, height, style }: SkeletonBoxProps) => {
@@ -28,23 +29,14 @@ const SkeletonBox = ({ width, height, style }: SkeletonBoxProps) => {
     const opacity = interpolate(animatedValue.value, [0, 1], [0.3, 1]);
     return {
       opacity,
+      width,
+      height,
+      backgroundColor: "#e8e8e8",
+      borderRadius: 4,
     };
   });
 
-  return (
-    <Animated.View
-      style={[
-        {
-          width,
-          height,
-          backgroundColor: "#e8e8e8",
-          borderRadius: 4,
-        },
-        style,
-        animatedStyle,
-      ]}
-    />
-  );
+  return <Animated.View style={[animatedStyle, style]} />;
 };
 
 export default SkeletonBox;
