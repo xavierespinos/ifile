@@ -7,6 +7,7 @@ import { fetchDocuments } from "api/api";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "components/LoadingSpinner";
 import DocumentCard from "components/DocumentCard";
+import DocumentCardSkeleton from "components/DocumentCardSkeleton";
 
 const HomeScreen = () => {
   const { isPending, data, error, refetch, isRefetching } = useQuery({
@@ -25,7 +26,9 @@ const HomeScreen = () => {
         <View style={styles.content}>
           {isPending ? (
             <View style={styles.loadingContainer}>
-              <LoadingSpinner color="blue" />
+              <DocumentCardSkeleton />
+              <DocumentCardSkeleton />
+              <DocumentCardSkeleton />
             </View>
           ) : (
             <>
@@ -89,8 +92,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 20,
+    gap: 20,
   },
 });
