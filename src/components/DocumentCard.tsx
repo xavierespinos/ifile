@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC, memo } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Document } from "types/Document";
 import { Ionicons } from "@expo/vector-icons";
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DocumentCard;
+export default memo(DocumentCard);

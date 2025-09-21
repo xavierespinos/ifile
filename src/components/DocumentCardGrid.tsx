@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC, memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Document } from "types/Document";
 
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DocumentCardGrid;
+export default memo(DocumentCardGrid);

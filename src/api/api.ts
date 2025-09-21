@@ -2,8 +2,6 @@ import { ApiDTO, Document, mapApiDocumentToDocument } from "types/Document";
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || "";
 
-console.log("API_BASE_URL:", process.env);
-
 export const fetchDocuments = async (): Promise<Document[]> => {
   const response = await fetch(`${API_BASE_URL}/documents`);
   const apiDocuments: ApiDTO[] = await response.json();
