@@ -1,12 +1,12 @@
 import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
-import DocumentsHeader from "../components/DocumentsHeader";
+import DocumentsHeader from "components/DocumentsHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomButton from "../components/Button";
-import Divider from "../components/Divider";
-import { fetchDocuments } from "../api/api";
+import CustomButton from "components/Button";
+import Divider from "components/Divider";
+import { fetchDocuments } from "api/api";
 import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "../components/LoadingSpinner";
-import DocumentCard from "../components/DocumentCard";
+import LoadingSpinner from "components/LoadingSpinner";
+import DocumentCard from "components/DocumentCard";
 
 const HomeScreen = () => {
   const { isPending, data, error, refetch, isRefetching } = useQuery({
@@ -46,7 +46,7 @@ const HomeScreen = () => {
             </>
           )}
 
-          <View>
+          <>
             <View style={styles.dividerContainer}>
               <Divider />
             </View>
@@ -55,7 +55,7 @@ const HomeScreen = () => {
               onPress={() => {}}
               style={styles.button}
             />
-          </View>
+          </>
         </View>
       </SafeAreaView>
     </>
