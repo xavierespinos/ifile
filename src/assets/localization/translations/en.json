@@ -8,7 +8,10 @@
     "delete": "Delete",
     "edit": "Edit",
     "add": "Add",
-    "close": "Close"
+    "close": "Close",
+    "submit": "Submit",
+    "tryAgain": "Try again",
+    "tryAgainLater": "Try again later"
   },
   "documents": {
     "title": "Documents",
@@ -26,5 +29,23 @@
   },
   "notifications": {
     "moreThan99": "99+"
+  },
+  "addDocument": {
+    "title": "Add Document",
+    "documentInformation": "Document Information",
+    "name": "Name",
+    "namePlaceholder": "Enter document name",
+    "nameRequired": "Document name is required",
+    "nameMinLength": "Name must be at least 2 characters",
+    "version": "Version",
+    "versionPlaceholder": "Enter version (e.g., 1.0.0)",
+    "versionRequired": "Version is required",
+    "versionFormat": "Version must be in format like 1.0 or 1.0.0",
+    "file": "File",
+    "chooseFile": "Choose file",
+    "fileSize": "File size: {{size}} KB",
+    "uploadSuccess": "Document uploaded successfully",
+    "uploadError": "Failed to upload document",
+    "fileSelectionError": "Failed to select file"
   }
 }

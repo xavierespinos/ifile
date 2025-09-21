@@ -10,6 +10,8 @@ import Divider from "./Divider";
 import CustomButton from "./Button";
 import CustomInput from "./CustomInput";
 import Toast from "react-native-toast-message";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, LAYOUT } from "constants/theme";
+import { useTranslation } from "hooks/useTranslation";
 
 type DocumentFormData = {
   name: string;
@@ -22,6 +24,7 @@ type Props = {
 };
 
 const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
+  const { t } = useTranslation();
   const [selectedFile, setSelectedFile] =
     useState<DocumentPicker.DocumentPickerAsset | null>(null);
 
@@ -42,7 +45,7 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     onSuccess: () => {
       Toast.show({
         type: "success",
-        text1: "Document uploaded successfully",
+        text1: t('addDocument.uploadSuccess'),
       });
       reset();
       actionSheetRef.current?.hide();
@@ -50,8 +53,8 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     onError: (error) => {
       Toast.show({
         type: "error",
-        text1: "Upload failed",
-        text2: "Please try again later",
+        text1: t('addDocument.uploadError'),
+        text2: t('common.tryAgainLater'),
       });
     },
   });
@@ -81,8 +84,8 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: "File selection failed",
-        text2: "Please try again",
+        text1: t('addDocument.fileSelectionError'),
+        text2: t('common.tryAgain'),
       });
     }
   };
@@ -94,25 +97,28 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
   };
 
   return (
-    <ActionSheet ref={actionSheetRef} containerStyle={{ padding: 20 }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.title}>Add document</Text>
+    <ActionSheet
+      ref={actionSheetRef}
+      containerStyle={styles.actionSheetContainer}
+    >
+      <View style={styles.buttonRow}>
+        <Text style={styles.title}>{t('addDocument.title')}</Text>
         <Pressable onPress={handleClose}>
-          <Ionicons name="close" size={24} color={"grey"} />
+          <Ionicons name="close" size={24} color={COLORS.TEXT_SECONDARY} />
         </Pressable>
       </View>
-      <Text style={styles.subtitle}>Document information</Text>
+      <Text style={styles.subtitle}>{t('addDocument.documentInformation')}</Text>
 
       <CustomInput
         control={control}
         name="name"
-        label="Name"
-        placeholder="Document name"
+        label={t('addDocument.name')}
+        placeholder={t('addDocument.namePlaceholder')}
         rules={{
-          required: "Document name is required",
+          required: t('addDocument.nameRequired'),
           minLength: {
             value: 2,
-            message: "Name must be at least 2 characters",
+            message: t('addDocument.nameMinLength'),
           },
         }}
       />
@@ -120,36 +126,36 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
       <CustomInput
         control={control}
         name="version"
-        label="Version number"
-        placeholder="1.0.0"
+        label={t('addDocument.version')}
+        placeholder={t('addDocument.versionPlaceholder')}
         rules={{
-          required: "Version is required",
+          required: t('addDocument.versionRequired'),
           pattern: {
             value: /^\d+(\.\d+)*$/,
-            message: "Version must be in format like 1.0 or 1.2.3",
+            message: t('addDocument.versionFormat'),
           },
         }}
       />
       <View>
-        <Text style={styles.fileLabel}>File</Text>
+        <Text style={styles.fileLabel}>{t('addDocument.file')}</Text>
         <Pressable onPress={pickDocument} style={styles.chooseFileButton}>
-          <AntDesign name="file-add" color={"#007AFF"} />
+          <AntDesign name="file-add" color={COLORS.PRIMARY} />
           <Text style={styles.chooseFileText}>
-            {selectedFile ? selectedFile.name : "Choose file"}
+            {selectedFile ? selectedFile.name : t('addDocument.chooseFile')}
           </Text>
         </Pressable>
         {!!selectedFile && selectedFile.size && (
           <Text style={styles.fileInfo}>
-            Size: {(selectedFile.size / 1024).toFixed(1)} KB
+            {t('addDocument.fileSize', { size: (selectedFile.size / 1024).toFixed(1) })}
           </Text>
         )}
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={styles.buttonContainer}>
         <View style={styles.dividerContainer}>
           <Divider />
         </View>
         <CustomButton
-          cta={"Submit"}
+          cta={t('common.submit')}
           onPress={handleSubmit(onSubmit)}
           style={styles.button}
           isLoading={mutation.isPending}
@@ -160,52 +166,56 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 20,
-  },
   title: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: FONT_SIZE.XL,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
   },
   subtitle: {
-    marginTop: 8,
-    fontSize: 16,
-    marginBottom: 16,
+    marginTop: UNIT.SM,
+    fontSize: FONT_SIZE.MD,
+    marginBottom: UNIT.LG,
   },
   dividerContainer: {
-    marginHorizontal: -20,
+    marginHorizontal: -UNIT.XL,
   },
   button: {
-    marginTop: 10,
-  },
-  disabledButton: {
-    opacity: 0.5,
+    marginTop: UNIT.SM,
   },
   fileLabel: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 8,
+    fontSize: FONT_SIZE.MD,
+    fontWeight: FONT_WEIGHT.MEDIUM,
+    marginBottom: UNIT.SM,
   },
   chooseFileButton: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    marginTop: 8,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    gap: UNIT.SM,
+    marginTop: UNIT.SM,
+    borderColor: COLORS.BORDER_PRIMARY,
+    borderRadius: BORDER_RADIUS.MD,
     borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: UNIT.MD,
+    paddingVertical: UNIT.SM,
     alignSelf: "flex-start",
   },
   chooseFileText: {
-    color: "#007AFF",
-    fontSize: 16,
+    color: COLORS.PRIMARY,
+    fontSize: FONT_SIZE.MD,
   },
   fileInfo: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 4,
+    fontSize: FONT_SIZE.XS,
+    color: COLORS.TEXT_SECONDARY,
+    marginTop: UNIT.XS,
+  },
+  actionSheetContainer: {
+    padding: LAYOUT.CONTENT_PADDING,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  buttonContainer: {
+    marginTop: LAYOUT.SECTION_MARGIN,
   },
 });
 

@@ -1,5 +1,5 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { FC, useState, useRef } from "react";
+import { FC, useRef } from "react";
 import { View, StyleSheet, ViewProps, Pressable, Text } from "react-native";
 import Animated, {
   useSharedValue,
@@ -10,6 +10,7 @@ import Animated, {
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import { ViewMode, SortOption } from "types/types";
 import { useTranslation } from "hooks/useTranslation";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SHADOWS } from "constants/theme";
 
 interface Props extends ViewProps {
   onModeChange?: (mode: ViewMode) => void;
@@ -46,7 +47,7 @@ const DocumentsFilters: FC<Props> = ({
   };
 
   const backgroundAnimatedStyle = useAnimatedStyle(() => {
-    const translateX = interpolate(animatedValue.value, [0, 1], [0, 40]);
+    const translateX = interpolate(animatedValue.value, [0, 1], [0, UNIT.XL * 2]);
     return {
       transform: [{ translateX }],
     };
@@ -56,10 +57,10 @@ const DocumentsFilters: FC<Props> = ({
     <>
       <View style={[styles.container, props.style]}>
         <Pressable style={styles.sortButton} onPress={handleSortPress}>
-          <FontAwesome name="sort" size={20} color="#666" />
+          <FontAwesome name="sort" size={UNIT.XL} color={COLORS.TEXT_SECONDARY} />
           <Text style={styles.sortText}>{t('sorting.sortBy')}</Text>
           <View style={styles.divider} />
-          <FontAwesome name="caret-down" size={14} color="#666" />
+          <FontAwesome name="caret-down" size={UNIT.MD + 2} color={COLORS.TEXT_SECONDARY} />
         </Pressable>
 
         <View style={styles.selector}>
@@ -73,8 +74,8 @@ const DocumentsFilters: FC<Props> = ({
           >
             <Ionicons
               name="list"
-              size={20}
-              color={selectedMode === "list" ? "#007AFF" : "#666"}
+              size={UNIT.XL}
+              color={selectedMode === "list" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY}
             />
           </Pressable>
 
@@ -84,8 +85,8 @@ const DocumentsFilters: FC<Props> = ({
           >
             <Ionicons
               name="grid-outline"
-              size={18}
-              color={selectedMode === "grid" ? "#007AFF" : "#666"}
+              size={UNIT.LG + 2}
+              color={selectedMode === "grid" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY}
             />
           </Pressable>
         </View>
@@ -111,7 +112,7 @@ const DocumentsFilters: FC<Props> = ({
               {t('sorting.documentName')}
             </Text>
             {selectedSort === "name" && (
-              <Ionicons name="checkmark" size={20} color="#007AFF" />
+              <Ionicons name="checkmark" size={UNIT.XL} color={COLORS.PRIMARY} />
             )}
           </Pressable>
 
@@ -131,7 +132,7 @@ const DocumentsFilters: FC<Props> = ({
               {t('sorting.date')}
             </Text>
             {selectedSort === "date" && (
-              <Ionicons name="checkmark" size={20} color="#007AFF" />
+              <Ionicons name="checkmark" size={UNIT.XL} color={COLORS.PRIMARY} />
             )}
           </Pressable>
         </View>
@@ -149,29 +150,25 @@ const styles = StyleSheet.create({
   selector: {
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 2,
-    backgroundColor: "#f8f8f8",
+    borderColor: COLORS.BORDER_SECONDARY,
+    borderRadius: BORDER_RADIUS.MD,
+    padding: UNIT.XS / 2,
+    backgroundColor: COLORS.BACKGROUND_TERTIARY,
     position: "relative",
   },
   selectedBackground: {
     position: "absolute",
-    width: 40,
-    height: 36,
-    backgroundColor: "#fff",
-    borderRadius: 6,
-    top: 2,
-    left: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    width: UNIT.XL * 2,
+    height: UNIT.XL + UNIT.LG,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    borderRadius: BORDER_RADIUS.LG,
+    top: UNIT.XS / 2,
+    left: UNIT.XS / 2,
+    ...SHADOWS.SMALL,
   },
   option: {
-    width: 40,
-    height: 36,
+    width: UNIT.XL * 2,
+    height: UNIT.XL + UNIT.LG,
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1,
@@ -179,54 +176,54 @@ const styles = StyleSheet.create({
   sortButton: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    gap: UNIT.SM,
+    paddingHorizontal: UNIT.MD,
+    paddingVertical: UNIT.SM,
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    backgroundColor: "#f8f8f8",
+    borderColor: COLORS.BORDER_SECONDARY,
+    borderRadius: BORDER_RADIUS.MD,
+    backgroundColor: COLORS.BACKGROUND_TERTIARY,
   },
   sortText: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: FONT_SIZE.SM,
+    color: COLORS.TEXT_SECONDARY,
   },
   divider: {
     width: 1,
-    height: 16,
-    backgroundColor: "#ddd",
+    height: UNIT.LG,
+    backgroundColor: COLORS.BORDER_PRIMARY,
   },
   actionSheet: {
-    padding: 20,
+    padding: UNIT.XL,
   },
   actionSheetContent: {
-    gap: 16,
+    gap: UNIT.LG,
   },
   actionSheetTitle: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: FONT_SIZE.LG,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: UNIT.SM,
   },
   sortOption: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: "#f8f8f8",
+    paddingVertical: UNIT.MD,
+    paddingHorizontal: UNIT.LG,
+    borderRadius: BORDER_RADIUS.MD,
+    backgroundColor: COLORS.BACKGROUND_TERTIARY,
   },
   selectedSortOption: {
-    backgroundColor: "#e3f2fd",
+    backgroundColor: COLORS.PRIMARY_LIGHT,
   },
   sortOptionText: {
-    fontSize: 16,
-    color: "#333",
+    fontSize: FONT_SIZE.MD,
+    color: COLORS.TEXT_PRIMARY,
   },
   selectedSortOptionText: {
-    color: "#007AFF",
-    fontWeight: "500",
+    color: COLORS.PRIMARY,
+    fontWeight: FONT_WEIGHT.MEDIUM,
   },
 });
 

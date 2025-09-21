@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Document } from "types/Document";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "hooks/useTranslation";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SHADOWS } from "constants/theme";
 
 interface Props {
   document: Document;
@@ -20,9 +21,9 @@ const DocumentCard: FC<Props> = ({ document }) => {
         <Text style={styles.version}>{t('documents.version', { version: document.version })}</Text>
       </View>
       <View style={styles.detailsContainer}>
-        <View style={{ width: "50%" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="people-outline" size={20} color={COLORS.TEXT_TERTIARY} />
             <Text style={styles.subtitle}>{t('documents.contributors')}</Text>
           </View>
           {document.contributors.map((contributor, index) => (
@@ -34,9 +35,9 @@ const DocumentCard: FC<Props> = ({ document }) => {
             </Text>
           ))}
         </View>
-        <View style={{ width: "50%" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="attach-outline" size={20} color={COLORS.TEXT_TERTIARY} />
             <Text style={styles.subtitle}>{t('documents.attachments')}</Text>
           </View>
           {document.attachments.map((attachment, index) => (
@@ -55,46 +56,52 @@ const DocumentCard: FC<Props> = ({ document }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    borderRadius: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    marginBottom: 16,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    paddingHorizontal: UNIT.LG,
+    paddingVertical: UNIT.XL,
+    borderRadius: BORDER_RADIUS.LG,
+    ...SHADOWS.SMALL,
+    marginBottom: UNIT.LG,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: FONT_SIZE.MD,
+    fontWeight: FONT_WEIGHT.BOLD,
+    color: COLORS.TEXT_PRIMARY,
   },
   titleContainer: {
     flex: 1,
-    marginRight: 10,
+    marginRight: UNIT.SM,
   },
   subtitle: {
-    fontSize: 14,
-    fontWeight: "600",
+    fontSize: FONT_SIZE.SM,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.TEXT_PRIMARY,
   },
   version: {
-    fontSize: 14,
-    color: "#6f6e6eff",
+    fontSize: FONT_SIZE.SM,
+    color: COLORS.TEXT_TERTIARY,
   },
   header: {
     flexDirection: "row",
     alignItems: "flex-start",
   },
   detailsContainer: {
-    marginTop: 10,
+    marginTop: UNIT.SM,
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  section: {
+    width: "50%",
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: UNIT.XS,
+  },
   detail: {
-    fontSize: 14,
-    color: "#6f6e6eff",
-    marginTop: 8,
+    fontSize: FONT_SIZE.SM,
+    color: COLORS.TEXT_TERTIARY,
+    marginTop: UNIT.SM,
   },
 });
 

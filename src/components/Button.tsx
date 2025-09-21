@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Pressable, Text, StyleSheet, ViewProps } from "react-native";
 import LoadingSpinner from "./LoadingSpinner";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT } from "constants/theme";
 
 interface Props extends ViewProps {
   isLoading?: boolean;
@@ -29,19 +30,19 @@ const CustomButton: FC<Props> = ({ isLoading, onPress, cta, style }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#007AFF",
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: COLORS.PRIMARY,
+    padding: UNIT.LG,
+    borderRadius: BORDER_RADIUS.MD,
     alignItems: "center",
   },
   buttonPressed: {
-    backgroundColor: "#0056CC",
+    backgroundColor: COLORS.PRIMARY_DARK,
     opacity: 0.8,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: COLORS.TEXT_LIGHT,
+    fontSize: FONT_SIZE.MD,
+    fontWeight: FONT_WEIGHT.BOLD,
   },
 });
 

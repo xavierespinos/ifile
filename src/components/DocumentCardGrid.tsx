@@ -1,6 +1,7 @@
 import React, { FC, memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Document } from "types/Document";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SHADOWS } from "constants/theme";
 
 interface Props {
   document: Document;
@@ -19,31 +20,27 @@ const DocumentCardGrid: FC<Props> = ({ document }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    marginHorizontal: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    borderRadius: BORDER_RADIUS.MD,
+    padding: UNIT.MD,
+    marginBottom: UNIT.MD,
+    marginHorizontal: UNIT.XS,
+    ...SHADOWS.SMALL,
     minHeight: 70,
     justifyContent: "space-between",
     flex: 1,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    lineHeight: 20,
-    marginBottom: 4,
+    fontSize: FONT_SIZE.MD,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.TEXT_PRIMARY,
+    lineHeight: UNIT.XL,
+    marginBottom: UNIT.XS,
   },
   version: {
-    fontSize: 12,
-    color: "#666",
-    fontWeight: "500",
+    fontSize: FONT_SIZE.XS,
+    color: COLORS.TEXT_SECONDARY,
+    fontWeight: FONT_WEIGHT.MEDIUM,
   },
 });
 

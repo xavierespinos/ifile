@@ -17,6 +17,7 @@ import { sortDocuments } from "utils/sorting";
 import { useTranslation } from "hooks/useTranslation";
 import { Document } from "types/Document";
 import { ListRenderItem } from "react-native";
+import { COLORS, UNIT, LAYOUT } from "constants/theme";
 
 const HomeScreen = () => {
   const { t } = useTranslation();
@@ -49,6 +50,7 @@ const HomeScreen = () => {
 
   const getItemLayout = useCallback(
     (_data: ArrayLike<Document> | null | undefined, index: number) => {
+      // Heights in multiples of 4: list=120px, grid=160px
       const ITEM_HEIGHT = selectedMode === "list" ? 120 : 160;
       return {
         length: ITEM_HEIGHT,
@@ -153,37 +155,37 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   topSafeArea: {
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
   },
   container: {
     flex: 1,
-    backgroundColor: "#f3f2f2ff",
+    backgroundColor: COLORS.BACKGROUND_SECONDARY,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: LAYOUT.CONTENT_PADDING,
     flex: 1,
     justifyContent: "space-between",
   },
   dividerContainer: {
-    marginHorizontal: -20,
+    marginHorizontal: -LAYOUT.CONTENT_PADDING,
   },
   button: {
-    marginTop: 10,
+    marginTop: UNIT.SM,
   },
   documentsContainer: {
-    paddingTop: 20,
+    paddingTop: LAYOUT.SECTION_MARGIN,
     flex: 1,
     width: "100%",
   },
   loadingContainer: {
-    marginTop: 20,
-    gap: 20,
+    marginTop: LAYOUT.SECTION_MARGIN,
+    gap: LAYOUT.SECTION_MARGIN,
   },
   filters: {
-    marginVertical: 10,
+    marginVertical: UNIT.SM,
   },
   gridRow: {
     justifyContent: "space-between",
-    marginHorizontal: -4,
+    marginHorizontal: -UNIT.XS,
   },
 });

@@ -1,8 +1,8 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Toast from "react-native-toast-message";
 import { useNotifications } from "hooks/useNotifications";
 import { useTranslation } from "hooks/useTranslation";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, LAYOUT } from "constants/theme";
 
 const DocumentsHeader = () => {
   const { t } = useTranslation();
@@ -36,44 +36,46 @@ const DocumentsHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    padding: 20,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    padding: LAYOUT.CONTENT_PADDING,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: COLORS.BORDER_PRIMARY,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: FONT_SIZE.XXXL,
+    fontWeight: FONT_WEIGHT.BOLD,
+    color: COLORS.TEXT_PRIMARY,
   },
   iconWrapper: {
     position: "relative",
   },
   iconContainer: {
-    padding: 8,
+    padding: UNIT.SM,
     borderStyle: "solid",
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    borderColor: COLORS.BORDER_PRIMARY,
+    borderRadius: BORDER_RADIUS.MD,
+    color: COLORS.TEXT_PRIMARY,
   },
   badge: {
     position: "absolute",
-    top: 3,
-    right: 3,
-    backgroundColor: "#007AFF",
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
+    top: UNIT.XS / 2,
+    right: UNIT.XS / 2,
+    backgroundColor: COLORS.PRIMARY,
+    borderRadius: BORDER_RADIUS.MD,
+    minWidth: UNIT.LG,
+    height: UNIT.LG,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 4,
+    paddingHorizontal: UNIT.XS,
   },
   badgeText: {
-    color: "#fff",
-    fontSize: 10,
-    fontWeight: "bold",
+    color: COLORS.TEXT_LIGHT,
+    fontSize: FONT_SIZE.XS,
+    fontWeight: FONT_WEIGHT.BOLD,
     textAlign: "center",
   },
 });
