@@ -12,10 +12,7 @@ const DocumentCard: FC<Props> = ({ document }) => {
     <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          {/* <Text style={styles.title}>{document.title}</Text> */}
-          <Text style={styles.title}>
-            Asd adsf asdfff anbad adsf adsdf asfdss
-          </Text>
+          <Text style={styles.title}>{document.title}</Text>
         </View>
         <Text style={styles.version}>Version {document.version}</Text>
       </View>
