@@ -9,3 +9,13 @@ export const fetchDocuments = async (): Promise<Document[]> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return apiDocuments.map(mapApiDocumentToDocument);
 };
+
+export const uploadDocument = async (
+  name: string,
+  version: string,
+  file: any
+): Promise<void> => {
+  // Simulate a network request
+  await new Promise((resolve) => setTimeout(resolve, 2500));
+  return;
+};

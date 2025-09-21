@@ -11,11 +11,11 @@ interface Props extends ViewProps {
 const CustomButton: FC<Props> = ({ isLoading, onPress, cta, style }) => {
   return (
     <Pressable
-      onPress={onPress}
+      onPress={isLoading ? null : onPress}
       style={({ pressed }) => [
         styles.button,
         pressed && styles.buttonPressed,
-        style
+        style,
       ]}
     >
       {isLoading ? (
