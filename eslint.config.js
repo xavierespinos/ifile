@@ -8,11 +8,15 @@ const reactNative = require('eslint-plugin-react-native');
 module.exports = [
   js.configs.recommended,
   {
-    files: ['eslint.config.js'],
+    files: ['eslint.config.js', 'babel.config.js', 'jest.config.js', 'jest.setup.js', '__mocks__/**/*.js'],
     languageOptions: {
       globals: {
         require: 'readonly',
         module: 'readonly',
+        global: 'readonly',
+        jest: 'readonly',
+        setTimeout: 'readonly',
+        WebSocket: 'readonly',
       },
     },
   },
@@ -32,6 +36,13 @@ module.exports = [
         console: 'readonly',
         VoidFunction: 'readonly',
         React: 'readonly',
+        WebSocket: 'readonly',
+        setTimeout: 'readonly',
+        File: 'readonly',
+        __DEV__: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        process: 'readonly',
       },
     },
     plugins: {
@@ -77,6 +88,24 @@ module.exports = [
     files: ['**/*.js'],
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}', '**/__tests__/**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        jest: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        global: 'readonly',
+        require: 'readonly',
+      },
     },
   },
   {

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || "";
 const WS_URL = API_BASE_URL.replace("http", "ws") + "/notifications";
 
 import {

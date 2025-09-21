@@ -5,7 +5,6 @@ import CustomButton from "components/Button";
 import Divider from "components/Divider";
 import { fetchDocuments } from "api/api";
 import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "components/LoadingSpinner";
 import DocumentCard from "components/DocumentCard";
 import DocumentCardGrid from "components/DocumentCardGrid";
 import DocumentCardSkeleton from "components/DocumentCardSkeleton";

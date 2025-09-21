@@ -39,7 +39,7 @@ describe('API functions', () => {
 
       const result = await resultPromise;
 
-      expect(global.fetch).toHaveBeenCalledWith('http://localhost:8080/documents');
+      expect(global.fetch).toHaveBeenCalledWith(`${process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/documents`);
       expect(result).toEqual([
         {
           id: '1',

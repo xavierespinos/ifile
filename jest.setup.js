@@ -18,7 +18,7 @@ global.WebSocket = class MockWebSocket {
     if (this.onclose) this.onclose();
   }
 
-  send(data) {
+  send() {
     // Mock send
   }
 };
