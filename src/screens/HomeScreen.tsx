@@ -8,12 +8,17 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "components/LoadingSpinner";
 import DocumentCard from "components/DocumentCard";
 import DocumentCardSkeleton from "components/DocumentCardSkeleton";
+import AddDocumentModal from "components/AddDocumentModal";
+import { ActionSheetRef } from "react-native-actions-sheet";
+import { useRef } from "react";
 
 const HomeScreen = () => {
   const { isPending, data, error, refetch, isRefetching } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
   });
+
+  const actionSheetRef = useRef<ActionSheetRef>(null);
 
   return (
     <>
@@ -49,13 +54,17 @@ const HomeScreen = () => {
             </>
           )}
 
+          <AddDocumentModal actionSheetRef={actionSheetRef} />
+
           <>
             <View style={styles.dividerContainer}>
               <Divider />
             </View>
             <CustomButton
               cta="+ Add document"
-              onPress={() => {}}
+              onPress={() => {
+                actionSheetRef.current?.show();
+              }}
               style={styles.button}
             />
           </>

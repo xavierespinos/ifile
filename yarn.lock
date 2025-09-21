@@ -5304,7 +5304,12 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-19.1.1.tgz"
   "version" "19.1.1"
 
-"react-native-gesture-handler@^2.28.0", "react-native-gesture-handler@>= 2.0.0":
+"react-native-actions-sheet@^0.9.7":
+  "integrity" "sha512-rjUwxUr5dxbdSLDtLDUFAdSlFxpNSpJsbXLhHkBzEBMxEMPUhRT3zqbvKqsPj0JUkjwuRligxrhbIJZkg/6ZDw=="
+  "resolved" "https://registry.npmjs.org/react-native-actions-sheet/-/react-native-actions-sheet-0.9.7.tgz"
+  "version" "0.9.7"
+
+"react-native-gesture-handler@*", "react-native-gesture-handler@^2.28.0", "react-native-gesture-handler@>= 2.0.0":
   "integrity" "sha512-0msfJ1vRxXKVgTgvL+1ZOoYw3/0z1R+Ked0+udoJhyplC2jbVKIJ8Z1bzWdpQRCV3QcQ87Op0zJVE5DhKK2A0A=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.28.0.tgz"
   "version" "2.28.0"
@@ -5326,7 +5331,7 @@
     "react-native-is-edge-to-edge" "^1.2.1"
     "semver" "7.7.2"
 
-"react-native-safe-area-context@>= 4.0.0", "react-native-safe-area-context@~5.6.0":
+"react-native-safe-area-context@*", "react-native-safe-area-context@>= 4.0.0", "react-native-safe-area-context@~5.6.0":
   "integrity" "sha512-/wJE58HLEAkATzhhX1xSr+fostLsK8Q97EfpfMDKo8jlOc1QKESSX/FQrhk7HhQH/2uSaox4Y86sNaI02kteiA=="
   "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-5.6.1.tgz"
   "version" "5.6.1"
