@@ -14,6 +14,7 @@ import { ActionSheetRef } from "react-native-actions-sheet";
 import { useMemo, useRef, useState } from "react";
 import DocumentsFilters from "components/DocumentsFilters";
 import { ViewMode, SortOption } from "types/types";
+import { sortDocuments } from "utils/sorting";
 
 const HomeScreen = () => {
   const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
@@ -27,16 +28,7 @@ const HomeScreen = () => {
 
   const sortedData = useMemo(() => {
     if (!data) return [];
-    const dataCopy = [...data];
-    if (selectedSort === "name") {
-      return dataCopy.sort((a, b) => a.title.localeCompare(b.title));
-    } else {
-      return dataCopy.sort((a, b) => {
-        const dateA = new Date(a.updatedAt).getTime();
-        const dateB = new Date(b.updatedAt).getTime();
-        return dateB - dateA;
-      });
-    }
+    return sortDocuments(data, selectedSort === "name" ? "name" : "date");
   }, [data, selectedSort]);
 
   return (
