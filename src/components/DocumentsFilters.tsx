@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import { ViewMode, SortOption } from "types/types";
+import { useTranslation } from "hooks/useTranslation";
 
 interface Props extends ViewProps {
   onModeChange?: (mode: ViewMode) => void;
@@ -24,6 +25,7 @@ const DocumentsFilters: FC<Props> = ({
   selectedSort = "name",
   ...props
 }) => {
+  const { t } = useTranslation();
   const animatedValue = useSharedValue(0);
   const sortActionSheetRef = useRef<ActionSheetRef>(null);
 
@@ -55,7 +57,7 @@ const DocumentsFilters: FC<Props> = ({
       <View style={[styles.container, props.style]}>
         <Pressable style={styles.sortButton} onPress={handleSortPress}>
           <FontAwesome name="sort" size={20} color="#666" />
-          <Text style={styles.sortText}>Sort by</Text>
+          <Text style={styles.sortText}>{t('sorting.sortBy')}</Text>
           <View style={styles.divider} />
           <FontAwesome name="caret-down" size={14} color="#666" />
         </Pressable>
@@ -91,7 +93,7 @@ const DocumentsFilters: FC<Props> = ({
 
       <ActionSheet ref={sortActionSheetRef} containerStyle={styles.actionSheet}>
         <View style={styles.actionSheetContent}>
-          <Text style={styles.actionSheetTitle}>Sort by</Text>
+          <Text style={styles.actionSheetTitle}>{t('sorting.sortBy')}</Text>
 
           <Pressable
             style={[
@@ -106,7 +108,7 @@ const DocumentsFilters: FC<Props> = ({
                 selectedSort === "name" && styles.selectedSortOptionText,
               ]}
             >
-              Document name
+              {t('sorting.documentName')}
             </Text>
             {selectedSort === "name" && (
               <Ionicons name="checkmark" size={20} color="#007AFF" />
@@ -126,7 +128,7 @@ const DocumentsFilters: FC<Props> = ({
                 selectedSort === "date" && styles.selectedSortOptionText,
               ]}
             >
-              Date
+              {t('sorting.date')}
             </Text>
             {selectedSort === "date" && (
               <Ionicons name="checkmark" size={20} color="#007AFF" />

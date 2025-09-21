@@ -1,0 +1,30 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close"
+  },
+  "documents": {
+    "title": "Documents",
+    "noDocuments": "No documents available.",
+    "addDocument": "+ Add document",
+    "version": "Version {{version}}",
+    "contributors": "Contributors",
+    "attachments": "Attachments",
+    "lastUpdated": "Updated: {{date}}"
+  },
+  "sorting": {
+    "sortBy": "Sort by",
+    "documentName": "Document name",
+    "date": "Date"
+  },
+  "notifications": {
+    "moreThan99": "99+"
+  }
+}

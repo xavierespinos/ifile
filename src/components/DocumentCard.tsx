@@ -2,25 +2,28 @@ import { FC } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Document } from "types/Document";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "hooks/useTranslation";
 
 interface Props {
   document: Document;
 }
 
 const DocumentCard: FC<Props> = ({ document }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{document.title}</Text>
         </View>
-        <Text style={styles.version}>Version {document.version}</Text>
+        <Text style={styles.version}>{t('documents.version', { version: document.version })}</Text>
       </View>
       <View style={styles.detailsContainer}>
         <View style={{ width: "50%" }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
-            <Text style={styles.subtitle}>Contributors</Text>
+            <Text style={styles.subtitle}>{t('documents.contributors')}</Text>
           </View>
           {document.contributors.map((contributor, index) => (
             <Text
@@ -34,7 +37,7 @@ const DocumentCard: FC<Props> = ({ document }) => {
         <View style={{ width: "50%" }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <Ionicons name="people-outline" size={20} color={"#6f6e6eff"} />
-            <Text style={styles.subtitle}>Attachments</Text>
+            <Text style={styles.subtitle}>{t('documents.attachments')}</Text>
           </View>
           {document.attachments.map((attachment, index) => (
             <Text

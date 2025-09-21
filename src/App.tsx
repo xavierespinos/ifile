@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { AppState } from "react-native";
 import { websocketService } from "services/websocketService";
+import "./assets/localization";
 
 const queryClient = new QueryClient();
 

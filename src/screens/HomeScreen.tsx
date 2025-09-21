@@ -15,8 +15,10 @@ import { useMemo, useRef, useState } from "react";
 import DocumentsFilters from "components/DocumentsFilters";
 import { ViewMode, SortOption } from "types/types";
 import { sortDocuments } from "utils/sorting";
+import { useTranslation } from "hooks/useTranslation";
 
 const HomeScreen = () => {
+  const { t } = useTranslation();
   const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
   const [selectedSort, setSelectedSort] = useState<SortOption>("name");
   const actionSheetRef = useRef<ActionSheetRef>(null);
@@ -72,7 +74,7 @@ const HomeScreen = () => {
                 columnWrapperStyle={
                   selectedMode === "grid" ? styles.gridRow : undefined
                 }
-                ListEmptyComponent={<Text>No documents available.</Text>}
+                ListEmptyComponent={<Text>{t('documents.noDocuments')}</Text>}
                 refreshControl={
                   <RefreshControl
                     onRefresh={() => refetch()}
@@ -90,7 +92,7 @@ const HomeScreen = () => {
               <Divider />
             </View>
             <CustomButton
-              cta="+ Add document"
+              cta={t('documents.addDocument')}
               onPress={() => {
                 actionSheetRef.current?.show();
               }}

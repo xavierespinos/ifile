@@ -2,8 +2,10 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { useNotifications } from "hooks/useNotifications";
+import { useTranslation } from "hooks/useTranslation";
 
 const DocumentsHeader = () => {
+  const { t } = useTranslation();
   const { notificationCount, isConnected, clearNotifications } =
     useNotifications();
   const badgeCount =
@@ -11,7 +13,7 @@ const DocumentsHeader = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Documents</Text>
+      <Text style={styles.title}>{t('documents.title')}</Text>
       <Pressable onPress={clearNotifications} testID="notification-button">
         <View style={styles.iconWrapper}>
           <Ionicons
@@ -22,7 +24,7 @@ const DocumentsHeader = () => {
           {!!badgeCount && badgeCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>
-                {badgeCount > 99 ? "99+" : String(badgeCount)}
+                {badgeCount > 99 ? t('notifications.moreThan99') : String(badgeCount)}
               </Text>
             </View>
           )}
