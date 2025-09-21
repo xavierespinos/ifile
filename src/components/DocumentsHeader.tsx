@@ -12,7 +12,7 @@ const DocumentsHeader = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Documents</Text>
-      <Pressable onPress={clearNotifications}>
+      <Pressable onPress={clearNotifications} testID="notification-button">
         <View style={styles.iconWrapper}>
           <Ionicons
             name="notifications-outline"
