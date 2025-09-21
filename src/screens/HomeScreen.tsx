@@ -7,18 +7,37 @@ import { fetchDocuments } from "api/api";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "components/LoadingSpinner";
 import DocumentCard from "components/DocumentCard";
+import DocumentCardGrid from "components/DocumentCardGrid";
 import DocumentCardSkeleton from "components/DocumentCardSkeleton";
 import AddDocumentModal from "components/AddDocumentModal";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
+import DocumentsFilters from "components/DocumentsFilters";
+import { ViewMode, SortOption } from "types/types";
 
 const HomeScreen = () => {
-  const { isPending, data, error, refetch, isRefetching } = useQuery({
+  const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
+  const [selectedSort, setSelectedSort] = useState<SortOption>("name");
+  const actionSheetRef = useRef<ActionSheetRef>(null);
+
+  const { isPending, data, refetch, isRefetching } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
   });
 
-  const actionSheetRef = useRef<ActionSheetRef>(null);
+  const sortedData = useMemo(() => {
+    if (!data) return [];
+    const dataCopy = [...data];
+    if (selectedSort === "name") {
+      return dataCopy.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      return dataCopy.sort((a, b) => {
+        const dateA = new Date(a.updatedAt).getTime();
+        const dateB = new Date(b.updatedAt).getTime();
+        return dateB - dateA;
+      });
+    }
+  }, [data, selectedSort]);
 
   return (
     <>
@@ -37,12 +56,30 @@ const HomeScreen = () => {
             </View>
           ) : (
             <>
+              <DocumentsFilters
+                style={styles.filters}
+                selectedMode={selectedMode}
+                onModeChange={(mode) => setSelectedMode(mode)}
+                selectedSort={selectedSort}
+                onSortChange={(sort) => setSelectedSort(sort)}
+              />
               <FlatList
                 style={styles.documentsContainer}
-                data={data || []}
-                renderItem={({ item }) => <DocumentCard document={item} />}
+                data={sortedData || []}
+                renderItem={({ item }) =>
+                  selectedMode === "list" ? (
+                    <DocumentCard document={item} />
+                  ) : (
+                    <DocumentCardGrid document={item} />
+                  )
+                }
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                numColumns={selectedMode === "grid" ? 2 : 1}
+                key={selectedMode}
+                columnWrapperStyle={
+                  selectedMode === "grid" ? styles.gridRow : undefined
+                }
                 ListEmptyComponent={<Text>No documents available.</Text>}
                 refreshControl={
                   <RefreshControl
@@ -103,5 +140,12 @@ const styles = StyleSheet.create({
   loadingContainer: {
     marginTop: 20,
     gap: 20,
+  },
+  filters: {
+    marginVertical: 10,
+  },
+  gridRow: {
+    justifyContent: "space-between",
+    marginHorizontal: -4,
   },
 });
