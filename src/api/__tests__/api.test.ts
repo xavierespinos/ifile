@@ -1,4 +1,4 @@
-import { fetchDocuments, uploadDocument } from '../api';
+import { fetchDocuments, uploadDocument, UploadableFile } from '../api';
 import { ApiDTO } from 'types/Document';
 
 global.fetch = jest.fn();
@@ -84,7 +84,8 @@ describe('API functions', () => {
 
   describe('uploadDocument', () => {
     it('should complete upload after simulated delay', async () => {
-      const resultPromise = uploadDocument('Test Doc', '1.0', new File([], 'test.pdf'));
+      const mockFile: UploadableFile = { name: 'test.pdf', type: 'application/pdf', size: 1024 };
+      const resultPromise = uploadDocument('Test Doc', '1.0', mockFile);
 
       await jest.advanceTimersByTimeAsync(2500);
 
@@ -92,7 +93,11 @@ describe('API functions', () => {
     });
 
     it('should handle different file types', async () => {
-      const mockFile = { name: 'test.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' };
+      const mockFile: UploadableFile = {
+        name: 'test.docx',
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        size: 2048
+      };
 
       const resultPromise = uploadDocument('Word Doc', '2.0', mockFile);
 
@@ -102,7 +107,8 @@ describe('API functions', () => {
     });
 
     it('should handle special characters in document name', async () => {
-      const resultPromise = uploadDocument('Résumé & CV (2024)', '1.5', new File([], 'resume.pdf'));
+      const mockFile: UploadableFile = { name: 'resume.pdf', type: 'application/pdf', size: 512 };
+      const resultPromise = uploadDocument('Résumé & CV (2024)', '1.5', mockFile);
 
       await jest.advanceTimersByTimeAsync(2500);
 
@@ -111,9 +117,10 @@ describe('API functions', () => {
 
     it('should handle version strings with different formats', async () => {
       const testCases = ['1.0.0', 'v2.1', '3.0-beta', '1.0.0-rc.1'];
+      const mockFile: UploadableFile = { name: 'test.pdf', type: 'application/pdf', size: 256 };
 
       for (const version of testCases) {
-        const resultPromise = uploadDocument('Test', version, new File([], 'test.pdf'));
+        const resultPromise = uploadDocument('Test', version, mockFile);
 
         await jest.advanceTimersByTimeAsync(2500);
 

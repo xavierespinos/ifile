@@ -106,7 +106,7 @@ class WebSocketService {
     return this.ws?.readyState === WebSocket.OPEN;
   }
 
-  send(data: any): void {
+  send(data: unknown): void {
     if (this.isConnected()) {
       this.ws!.send(JSON.stringify(data));
     }
