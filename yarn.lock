@@ -1397,6 +1397,13 @@
   "resolved" "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
   "version" "0.11.0"
 
+"@react-native-async-storage/async-storage@^2.2.0":
+  "integrity" "sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw=="
+  "resolved" "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-2.2.0.tgz"
+  "version" "2.2.0"
+  dependencies:
+    "merge-options" "^3.0.4"
+
 "@react-native/assets-registry@0.81.4":
   "integrity" "sha512-AMcDadefBIjD10BRqkWw+W/VdvXEomR6aEZ0fhQRAv7igrBzb4PTn4vHKYg+sUK0e3wa74kcMy2DLc/HtnGcMA=="
   "resolved" "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.81.4.tgz"
@@ -3845,6 +3852,11 @@
   "resolved" "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
   "version" "7.0.0"
 
+"is-plain-obj@^2.1.0":
+  "integrity" "sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA=="
+  "resolved" "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz"
+  "version" "2.1.0"
+
 "is-regex@^1.2.1":
   "integrity" "sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g=="
   "resolved" "https://registry.npmjs.org/is-regex/-/is-regex-1.2.1.tgz"
@@ -4281,6 +4293,13 @@
   "integrity" "sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q=="
   "resolved" "https://registry.npmjs.org/memoize-one/-/memoize-one-5.2.1.tgz"
   "version" "5.2.1"
+
+"merge-options@^3.0.4":
+  "integrity" "sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ=="
+  "resolved" "https://registry.npmjs.org/merge-options/-/merge-options-3.0.4.tgz"
+  "version" "3.0.4"
+  dependencies:
+    "is-plain-obj" "^2.1.0"
 
 "merge-stream@^2.0.0":
   "integrity" "sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w=="
@@ -5343,7 +5362,7 @@
     "convert-source-map" "^2.0.0"
     "semver" "7.7.2"
 
-"react-native@*", "react-native@0.81.4":
+"react-native@*", "react-native@^0.0.0-0 || >=0.65 <1.0", "react-native@0.81.4":
   "integrity" "sha512-bt5bz3A/+Cv46KcjV0VQa+fo7MKxs17RCcpzjftINlen4ZDUl0I6Ut+brQ2FToa5oD0IB0xvQHfmsg2EDqsZdQ=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.81.4.tgz"
   "version" "0.81.4"
