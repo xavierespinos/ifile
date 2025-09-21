@@ -1,10 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
-import DocumentsHeader from "../components/DocumentsHeader";
+import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import DocumentsHeader from "components/DocumentsHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomButton from "../components/Button";
-import Divider from "../components/Divider";
+import CustomButton from "components/Button";
+import Divider from "components/Divider";
+import { fetchDocuments } from "api/api";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "components/LoadingSpinner";
+import DocumentCard from "components/DocumentCard";
+import DocumentCardSkeleton from "components/DocumentCardSkeleton";
 
 const HomeScreen = () => {
+  const { isPending, data, error, refetch, isRefetching } = useQuery({
+    queryKey: ["documents"],
+    queryFn: fetchDocuments,
+  });
+
   return (
     <>
       <SafeAreaView style={styles.topSafeArea} edges={["top"]} />
@@ -14,17 +24,41 @@ const HomeScreen = () => {
       >
         <DocumentsHeader />
         <View style={styles.content}>
-          <Text style={styles.title}>Home Screen</Text>
-          <View>
+          {isPending ? (
+            <View style={styles.loadingContainer}>
+              <DocumentCardSkeleton />
+              <DocumentCardSkeleton />
+              <DocumentCardSkeleton />
+            </View>
+          ) : (
+            <>
+              <FlatList
+                style={styles.documentsContainer}
+                data={data || []}
+                renderItem={({ item }) => <DocumentCard document={item} />}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={<Text>No documents available.</Text>}
+                refreshControl={
+                  <RefreshControl
+                    onRefresh={() => refetch()}
+                    refreshing={isRefetching}
+                  />
+                }
+              />
+            </>
+          )}
+
+          <>
             <View style={styles.dividerContainer}>
               <Divider />
             </View>
             <CustomButton
               cta="+ Add document"
-              onPress={() => console.log("Button Pressed")}
+              onPress={() => {}}
               style={styles.button}
             />
-          </View>
+          </>
         </View>
       </SafeAreaView>
     </>
@@ -41,11 +75,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f3f2f2ff",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 20,
-  },
   content: {
     paddingHorizontal: 20,
     flex: 1,
@@ -56,5 +85,14 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+  },
+  documentsContainer: {
+    paddingTop: 20,
+    flex: 1,
+    width: "100%",
+  },
+  loadingContainer: {
+    marginTop: 20,
+    gap: 20,
   },
 });
