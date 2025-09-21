@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { FC, RefObject } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import Divider from "./Divider";
 import CustomButton from "./Button";
@@ -15,12 +15,9 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     <ActionSheet ref={actionSheetRef} containerStyle={{ padding: 20 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={styles.title}>Add document</Text>
-        <Ionicons
-          name="close"
-          size={24}
-          color={"grey"}
-          onPress={() => actionSheetRef?.current?.hide()}
-        ></Ionicons>
+        <Pressable onPress={() => actionSheetRef?.current?.hide()}>
+          <Ionicons name="close" size={24} color={"grey"} />
+        </Pressable>
       </View>
       <Text style={styles.subtitle}>Document information</Text>
       <CustomInput
