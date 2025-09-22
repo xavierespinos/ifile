@@ -6,10 +6,19 @@ import Toast from "react-native-toast-message";
 import { AppState } from "react-native";
 import { websocketService } from "services/websocketService";
 import "./assets/localization";
+import * as Sentry from "@sentry/react-native";
+
+Sentry.init({
+  dsn:
+    process.env.EXPO_PUBLIC_SENTRY_DSN ||
+    "https://95633aaac091f8e2012e87ba79290dfe@o4510062794964992.ingest.de.sentry.io/4510062796275792",
+  sendDefaultPii: true,
+  enableLogs: false,
+});
 
 const queryClient = new QueryClient();
 
-export default function App() {
+export default Sentry.wrap(function App() {
   useEffect(() => {
     // Handle app state changes for WebSocket connection
     const handleAppStateChange = (nextAppState: string) => {
@@ -22,7 +31,10 @@ export default function App() {
       }
     };
 
-    const subscription = AppState.addEventListener("change", handleAppStateChange);
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
 
     // Initial connection when app loads
     websocketService.connect();
@@ -40,4 +52,4 @@ export default function App() {
       <Toast />
     </QueryClientProvider>
   );
-}
+});
