@@ -80,7 +80,7 @@ const Notifications: FC = () => {
     () => (
       <View style={styles.headerContent}>
         {notifications.length > 0 && (
-          <Pressable onPress={clearNotifications} style={styles.clearButton}>
+          <Pressable onPress={clearNotifications}>
             <Text style={styles.clearButtonText}>
               {t("notifications.clearAll")}
             </Text>
@@ -140,10 +140,6 @@ const styles = StyleSheet.create({
   connectionText: {
     fontSize: FONT_SIZE.XS,
     color: COLORS.TEXT_TERTIARY,
-  },
-  clearButton: {
-    paddingVertical: UNIT.SM,
-    paddingHorizontal: UNIT.MD,
   },
   clearButtonText: {
     fontSize: FONT_SIZE.SM,
