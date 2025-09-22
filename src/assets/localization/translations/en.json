@@ -28,7 +28,23 @@
     "date": "Date"
   },
   "notifications": {
-    "moreThan99": "99+"
+    "moreThan99": "99+",
+    "title": "Notifications",
+    "clearAll": "Clear all",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "documentUpdated": "Document Updated",
+    "hasUpdatedDocument": "has updated the",
+    "document": "document",
+    "emptyTitle": "No notifications yet",
+    "emptySubtitle": "You'll see document updates and activity here",
+    "timeAgo": {
+      "unknownTime": "Unknown time",
+      "justNow": "Just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "daysAgo": "{{count}}d ago"
+    }
   },
   "addDocument": {
     "title": "Add Document",

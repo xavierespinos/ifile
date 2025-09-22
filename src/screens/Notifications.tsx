@@ -7,9 +7,9 @@ import {
   ListRenderItem,
   Pressable,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNotifications } from "hooks/useNotifications";
+import { useTranslation } from "hooks/useTranslation";
 import { Notification } from "types/Notification";
 import {
   COLORS,
@@ -22,6 +22,7 @@ import {
 } from "constants/theme";
 
 const Notifications: FC = () => {
+  const { t } = useTranslation();
   const { notifications, clearNotifications, isConnected } = useNotifications();
 
   const formatTimeAgo = (timestamp: Date | string): string => {
@@ -29,24 +30,29 @@ const Notifications: FC = () => {
     const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
 
     if (isNaN(date.getTime())) {
-      return "Unknown time";
+      return t("notifications.timeAgo.unknownTime");
     }
 
     const diffInMinutes = Math.floor(
       (now.getTime() - date.getTime()) / (1000 * 60)
     );
 
-    if (diffInMinutes < 1) return "Just now";
-    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+    if (diffInMinutes < 1) return t("notifications.timeAgo.justNow");
+    if (diffInMinutes < 60)
+      return t("notifications.timeAgo.minutesAgo", { count: diffInMinutes });
 
     const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) return `${diffInHours}h ago`;
+    if (diffInHours < 24)
+      return t("notifications.timeAgo.hoursAgo", { count: diffInHours });
 
     const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays}d ago`;
+    if (diffInDays < 7)
+      return t("notifications.timeAgo.daysAgo", { count: diffInDays });
 
     return date.toLocaleDateString();
   };
+
+  const keyExtractor = useCallback((item: Notification) => item.id, []);
 
   const renderNotificationItem: ListRenderItem<Notification> = useCallback(
     ({ item }) => (
@@ -60,12 +66,14 @@ const Notifications: FC = () => {
             />
           </View>
           <View style={styles.notificationContent}>
-            <Text style={styles.notificationTitle}>Document Updated</Text>
+            <Text style={styles.notificationTitle}>
+              {t("notifications.documentUpdated")}
+            </Text>
             <Text style={styles.notificationMessage}>
-              <Text style={styles.userName}>{item.user.name}</Text> has updated
-              the{" "}
+              <Text style={styles.userName}>{item.user.name}</Text>{" "}
+              {t("notifications.hasUpdatedDocument")}{" "}
               <Text style={styles.documentTitle}>{item.document.title}</Text>{" "}
-              document
+              {t("notifications.document")}
             </Text>
             <Text style={styles.timestamp}>
               {formatTimeAgo(item.timestamp)}
@@ -74,10 +82,8 @@ const Notifications: FC = () => {
         </View>
       </View>
     ),
-    []
+    [t]
   );
-
-  const keyExtractor = useCallback((item: Notification) => item.id, []);
 
   const ListEmptyComponent = useCallback(
     () => (
@@ -87,13 +93,13 @@ const Notifications: FC = () => {
           size={64}
           color={COLORS.TEXT_TERTIARY}
         />
-        <Text style={styles.emptyTitle}>No notifications yet</Text>
+        <Text style={styles.emptyTitle}>{t("notifications.emptyTitle")}</Text>
         <Text style={styles.emptySubtitle}>
-          You'll see document updates and activity here
+          {t("notifications.emptySubtitle")}
         </Text>
       </View>
     ),
-    []
+    [t]
   );
 
   const ListHeaderComponent = useCallback(
@@ -101,19 +107,21 @@ const Notifications: FC = () => {
       <View style={styles.headerContent}>
         {notifications.length > 0 && (
           <Pressable onPress={clearNotifications} style={styles.clearButton}>
-            <Text style={styles.clearButtonText}>Clear all</Text>
+            <Text style={styles.clearButtonText}>
+              {t("notifications.clearAll")}
+            </Text>
           </Pressable>
         )}
       </View>
     ),
-    [isConnected, notifications.length, clearNotifications]
+    [isConnected, notifications.length, clearNotifications, t]
   );
 
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.list}
-        data={[]}
+        data={notifications}
         renderItem={renderNotificationItem}
         keyExtractor={keyExtractor}
         ListEmptyComponent={ListEmptyComponent}
