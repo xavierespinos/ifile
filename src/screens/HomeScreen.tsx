@@ -5,18 +5,29 @@ import CustomButton from "components/Button";
 import Divider from "components/Divider";
 import { fetchDocuments } from "api/api";
 import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "components/LoadingSpinner";
 import DocumentCard from "components/DocumentCard";
 import DocumentCardGrid from "components/DocumentCardGrid";
 import DocumentCardSkeleton from "components/DocumentCardSkeleton";
 import AddDocumentModal from "components/AddDocumentModal";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useCallback } from "react";
 import DocumentsFilters from "components/DocumentsFilters";
 import { ViewMode, SortOption } from "types/types";
 import { sortDocuments } from "utils/sorting";
+import { useTranslation } from "hooks/useTranslation";
+import { Document } from "types/Document";
+import { ListRenderItem } from "react-native";
+import { COLORS, UNIT, LAYOUT } from "constants/theme";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "navigation/AppNavigator";
+import Toast from "react-native-toast-message";
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const HomeScreen = () => {
+  const { t } = useTranslation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
   const [selectedSort, setSelectedSort] = useState<SortOption>("name");
   const actionSheetRef = useRef<ActionSheetRef>(null);
@@ -24,12 +35,68 @@ const HomeScreen = () => {
   const { isPending, data, refetch, isRefetching } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
+    throwOnError(error, query) {
+      Toast.show({
+        type: "error",
+        text1: t("documents.fetchError"),
+        text2: error instanceof Error ? error.message : String(error),
+      });
+      return false;
+    },
   });
+
+  const keyExtractor = useCallback((item: Document) => item.id, []);
 
   const sortedData = useMemo(() => {
     if (!data) return [];
     return sortDocuments(data, selectedSort === "name" ? "name" : "date");
   }, [data, selectedSort]);
+
+  const renderItem: ListRenderItem<Document> = useCallback(
+    ({ item }) => {
+      return selectedMode === "list" ? (
+        <DocumentCard document={item} />
+      ) : (
+        <DocumentCardGrid document={item} />
+      );
+    },
+    [selectedMode]
+  );
+
+  const getItemLayout = useCallback(
+    (_data: ArrayLike<Document> | null | undefined, index: number) => {
+      // Heights in multiples of 4: list=120px, grid=160px
+      const ITEM_HEIGHT = selectedMode === "list" ? 120 : 160;
+      return {
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index,
+      };
+    },
+    [selectedMode]
+  );
+
+  const ListEmptyComponent = useMemo(
+    () => <Text>{t("documents.noDocuments")}</Text>,
+    [t]
+  );
+
+  const refreshControl = useMemo(
+    () => <RefreshControl onRefresh={refetch} refreshing={isRefetching} />,
+    [refetch, isRefetching]
+  );
+
+  const handleModeChange = (mode: ViewMode) => {
+    setSelectedMode(mode);
+  };
+
+  const handleSortChange = (sort: SortOption) => {
+    setSelectedSort(sort);
+  };
+
+  const handleAddDocument = () => {
+    actionSheetRef.current?.show();
+  };
 
   return (
     <>
@@ -38,7 +105,11 @@ const HomeScreen = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
       >
-        <DocumentsHeader />
+        <DocumentsHeader
+          onNotificationsPress={() => {
+            navigation.navigate("Notifications");
+          }}
+        />
         <View style={styles.content}>
           {isPending ? (
             <View style={styles.loadingContainer}>
@@ -51,34 +122,30 @@ const HomeScreen = () => {
               <DocumentsFilters
                 style={styles.filters}
                 selectedMode={selectedMode}
-                onModeChange={(mode) => setSelectedMode(mode)}
+                onModeChange={handleModeChange}
                 selectedSort={selectedSort}
-                onSortChange={(sort) => setSelectedSort(sort)}
+                onSortChange={handleSortChange}
               />
               <FlatList
                 style={styles.documentsContainer}
                 data={sortedData || []}
-                renderItem={({ item }) =>
-                  selectedMode === "list" ? (
-                    <DocumentCard document={item} />
-                  ) : (
-                    <DocumentCardGrid document={item} />
-                  )
-                }
-                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
+                getItemLayout={getItemLayout}
                 showsVerticalScrollIndicator={false}
                 numColumns={selectedMode === "grid" ? 2 : 1}
                 key={selectedMode}
                 columnWrapperStyle={
                   selectedMode === "grid" ? styles.gridRow : undefined
                 }
-                ListEmptyComponent={<Text>No documents available.</Text>}
-                refreshControl={
-                  <RefreshControl
-                    onRefresh={() => refetch()}
-                    refreshing={isRefetching}
-                  />
-                }
+                ListEmptyComponent={ListEmptyComponent}
+                refreshControl={refreshControl}
+                removeClippedSubviews={true}
+                maxToRenderPerBatch={10}
+                updateCellsBatchingPeriod={50}
+                initialNumToRender={10}
+                windowSize={10}
+                extraData={selectedMode}
               />
             </>
           )}
@@ -90,10 +157,8 @@ const HomeScreen = () => {
               <Divider />
             </View>
             <CustomButton
-              cta="+ Add document"
-              onPress={() => {
-                actionSheetRef.current?.show();
-              }}
+              cta={t("documents.addDocument")}
+              onPress={handleAddDocument}
               style={styles.button}
             />
           </>
@@ -107,37 +172,37 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   topSafeArea: {
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
   },
   container: {
     flex: 1,
-    backgroundColor: "#f3f2f2ff",
+    backgroundColor: COLORS.BACKGROUND_SECONDARY,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: LAYOUT.CONTENT_PADDING,
     flex: 1,
     justifyContent: "space-between",
   },
   dividerContainer: {
-    marginHorizontal: -20,
+    marginHorizontal: -LAYOUT.CONTENT_PADDING,
   },
   button: {
-    marginTop: 10,
+    marginTop: UNIT.SM,
   },
   documentsContainer: {
-    paddingTop: 20,
+    paddingTop: LAYOUT.SECTION_MARGIN,
     flex: 1,
     width: "100%",
   },
   loadingContainer: {
-    marginTop: 20,
-    gap: 20,
+    marginTop: LAYOUT.SECTION_MARGIN,
+    gap: LAYOUT.SECTION_MARGIN,
   },
   filters: {
-    marginVertical: 10,
+    marginVertical: UNIT.SM,
   },
   gridRow: {
     justifyContent: "space-between",
-    marginHorizontal: -4,
+    marginHorizontal: -UNIT.XS,
   },
 });

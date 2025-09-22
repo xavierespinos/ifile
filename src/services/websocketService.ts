@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || "";
 const WS_URL = API_BASE_URL.replace("http", "ws") + "/notifications";
 
 import {
@@ -6,6 +6,7 @@ import {
   Notification,
   mapNotificationDTOToNotification,
 } from "types/Notification";
+import * as Sentry from "@sentry/react-native";
 
 class WebSocketService {
   private ws: WebSocket | null = null;
@@ -14,6 +15,9 @@ class WebSocketService {
   private maxReconnectAttempts = 5;
   private reconnectInterval = 3000;
   private isConnecting = false;
+  private throttleInterval = 5000; // 5 seconds
+  private pendingNotifications: Notification[] = [];
+  private throttleTimer: NodeJS.Timeout | null = null;
 
   connect(): void {
     if (this.ws?.readyState === WebSocket.OPEN || this.isConnecting) {
@@ -34,8 +38,19 @@ class WebSocketService {
         try {
           const dto: NotificationDTO = JSON.parse(event.data);
           const notification = mapNotificationDTOToNotification(dto);
-          this.notifyListeners("notification", notification);
-        } catch (error) {}
+          this.addToThrottleBuffer(notification);
+        } catch (error) {
+          Sentry.captureException(error, {
+            tags: {
+              component: 'websocket',
+              operation: 'onmessage'
+            },
+            extra: {
+              eventData: event.data,
+              wsUrl: WS_URL
+            }
+          });
+        }
       };
 
       this.ws.onclose = () => {
@@ -48,6 +63,16 @@ class WebSocketService {
       };
     } catch (error) {
       this.isConnecting = false;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'websocket',
+          operation: 'connect'
+        },
+        extra: {
+          wsUrl: WS_URL,
+          reconnectAttempts: this.reconnectAttempts
+        }
+      });
     }
   }
 
@@ -57,6 +82,7 @@ class WebSocketService {
       this.ws = null;
     }
     this.reconnectAttempts = this.maxReconnectAttempts;
+    this.clearThrottleTimer();
   }
 
   private handleReconnect(): void {
@@ -106,9 +132,42 @@ class WebSocketService {
     return this.ws?.readyState === WebSocket.OPEN;
   }
 
-  send(data: any): void {
+  send(data: unknown): void {
     if (this.isConnected()) {
       this.ws!.send(JSON.stringify(data));
+    }
+  }
+
+  // Used to reduce the number of notifications sent in a short period
+  private addToThrottleBuffer(notification: Notification): void {
+    this.pendingNotifications.push(notification);
+
+    if (!this.throttleTimer) {
+      this.throttleTimer = setTimeout(() => {
+        this.processThrottledNotifications();
+      }, this.throttleInterval);
+    }
+  }
+
+  private processThrottledNotifications(): void {
+    if (this.pendingNotifications.length > 0) {
+      // Send all pending notifications
+      this.pendingNotifications.forEach((notification) => {
+        this.notifyListeners("notification", notification);
+      });
+
+      // Clear the buffer
+      this.pendingNotifications = [];
+    }
+
+    // Clear the timer
+    this.clearThrottleTimer();
+  }
+
+  private clearThrottleTimer(): void {
+    if (this.throttleTimer) {
+      clearTimeout(this.throttleTimer);
+      this.throttleTimer = null;
     }
   }
 }

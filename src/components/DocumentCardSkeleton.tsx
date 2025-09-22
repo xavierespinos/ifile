@@ -1,5 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import SkeletonBox from "components/SkeletonBox";
+import { COLORS, UNIT, BORDER_RADIUS, SHADOWS } from "constants/theme";
 
 const DocumentCardSkeleton = () => {
   return (
@@ -57,26 +58,22 @@ const DocumentCardSkeleton = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    borderRadius: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    paddingHorizontal: UNIT.LG,
+    paddingVertical: UNIT.XL,
+    borderRadius: BORDER_RADIUS.LG,
+    ...SHADOWS.SMALL,
   },
   titleContainer: {
     flex: 1,
-    marginRight: 10,
+    marginRight: UNIT.SM,
   },
   header: {
     flexDirection: "row",
     alignItems: "flex-start",
   },
   detailsContainer: {
-    marginTop: 10,
+    marginTop: UNIT.SM,
     flexDirection: "row",
     justifyContent: "space-between",
   },

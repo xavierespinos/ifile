@@ -1,0 +1,68 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "submit": "Submit",
+    "tryAgain": "Try again",
+    "tryAgainLater": "Try again later"
+  },
+  "documents": {
+    "title": "Documents",
+    "noDocuments": "No documents available.",
+    "addDocument": "+ Add document",
+    "version": "Version {{version}}",
+    "contributors": "Contributors",
+    "attachments": "Attachments",
+    "lastUpdated": "Updated: {{date}}",
+    "fetchError": "Failed to fetch documents"
+  },
+  "sorting": {
+    "sortBy": "Sort by",
+    "documentName": "Document name",
+    "date": "Date"
+  },
+  "notifications": {
+    "moreThan99": "99+",
+    "title": "Notifications",
+    "clearAll": "Clear all",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "documentUpdated": "Document Updated",
+    "hasUpdatedDocument": "has updated the",
+    "document": "document",
+    "emptyTitle": "No notifications yet",
+    "emptySubtitle": "You'll see document updates and activity here",
+    "timeAgo": {
+      "unknownTime": "Unknown time",
+      "justNow": "Just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "daysAgo": "{{count}}d ago"
+    }
+  },
+  "addDocument": {
+    "title": "Add Document",
+    "documentInformation": "Document Information",
+    "name": "Name",
+    "namePlaceholder": "Enter document name",
+    "nameRequired": "Document name is required",
+    "nameMinLength": "Name must be at least 2 characters",
+    "version": "Version",
+    "versionPlaceholder": "Enter version (e.g., 1.0.0)",
+    "versionRequired": "Version is required",
+    "versionFormat": "Version must be in format like 1.0 or 1.0.0",
+    "file": "File",
+    "chooseFile": "Choose file",
+    "fileSize": "File size: {{size}} KB",
+    "uploadSuccess": "Document uploaded successfully",
+    "uploadError": "Failed to upload document",
+    "fileSelectionError": "Failed to select file"
+  }
+}

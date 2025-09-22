@@ -7,7 +7,7 @@ const Animated = {
 module.exports = {
   default: Animated,
   useSharedValue: (val) => ({ value: val }),
-  useAnimatedStyle: (fn) => ({}),
+  useAnimatedStyle: () => ({}),
   withTiming: (val) => val,
-  interpolate: (val, input, output) => val,
+  interpolate: (val) => val,
 };

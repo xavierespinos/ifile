@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React from "react";
 import {
   TextInput,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
   Path,
   RegisterOptions,
 } from "react-hook-form";
+import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT } from "constants/theme";
 
 interface BaseInputProps
   extends Omit<TextInputProps, "value" | "onChangeText" | "onBlur"> {
@@ -41,12 +42,13 @@ const CustomInput = <T extends FieldValues>({
       name={name}
       rules={rules}
       render={({
-        field: { onChange, onBlur, value },
+        field: { onChange, onBlur, value, ref },
         fieldState: { error },
       }) => (
         <View style={styles.container}>
           {label && <Text style={styles.label}>{label}</Text>}
           <TextInput
+            ref={ref}
             style={[styles.input, style]}
             placeholderTextColor="#999"
             value={value}
@@ -63,27 +65,28 @@ const CustomInput = <T extends FieldValues>({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: UNIT.LG,
   },
   label: {
-    marginBottom: 8,
-    fontSize: 16,
-    fontWeight: "500",
+    marginBottom: UNIT.SM,
+    fontSize: FONT_SIZE.MD,
+    fontWeight: FONT_WEIGHT.MEDIUM,
+    color: COLORS.TEXT_PRIMARY,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: "#fff",
-    color: "#333",
+    borderColor: COLORS.BORDER_SECONDARY,
+    borderRadius: BORDER_RADIUS.MD,
+    paddingHorizontal: UNIT.LG,
+    paddingVertical: UNIT.MD,
+    fontSize: FONT_SIZE.MD,
+    backgroundColor: COLORS.BACKGROUND_PRIMARY,
+    color: COLORS.TEXT_PRIMARY,
   },
   errorText: {
-    color: "#ff4444",
-    fontSize: 12,
-    marginTop: 4,
+    color: COLORS.ERROR,
+    fontSize: FONT_SIZE.XS,
+    marginTop: UNIT.XS,
   },
 });
 

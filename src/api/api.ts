@@ -1,6 +1,11 @@
-import { ApiDTO, Document, mapApiDocumentToDocument } from "types/Document";
+import {
+  ApiDTO,
+  Document,
+  mapApiDocumentToDocument,
+  UploadableFile,
+} from "types/Document";
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || "";
 
 export const fetchDocuments = async (): Promise<Document[]> => {
   const response = await fetch(`${API_BASE_URL}/documents`);
@@ -10,10 +15,11 @@ export const fetchDocuments = async (): Promise<Document[]> => {
   return apiDocuments.map(mapApiDocumentToDocument);
 };
 
+// This mocks the BE upload endpoint
 export const uploadDocument = async (
-  name: string,
-  version: string,
-  file: any
+  _name: string,
+  _version: string,
+  _file: UploadableFile | undefined
 ): Promise<void> => {
   // Simulate a network request
   await new Promise((resolve) => setTimeout(resolve, 2500));
