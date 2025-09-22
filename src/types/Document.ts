@@ -30,3 +30,10 @@ export const mapApiDocumentToDocument = (apiDoc: ApiDTO): Document => ({
     name: contributor.Name,
   })),
 });
+
+export interface UploadableFile {
+  name?: string;
+  uri?: string;
+  type?: string;
+  size?: number;
+}

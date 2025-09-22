@@ -1,12 +1,9 @@
-import { ApiDTO, Document, mapApiDocumentToDocument } from "types/Document";
-
-// Interface for file upload that works with both web File and React Native DocumentPickerAsset
-export interface UploadableFile {
-  name?: string;
-  uri?: string;
-  type?: string;
-  size?: number;
-}
+import {
+  ApiDTO,
+  Document,
+  mapApiDocumentToDocument,
+  UploadableFile,
+} from "types/Document";
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || "";
 
