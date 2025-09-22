@@ -1,7 +1,14 @@
 import React, { FC, memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Document } from "types/Document";
-import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SHADOWS } from "constants/theme";
+import {
+  COLORS,
+  UNIT,
+  BORDER_RADIUS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+  SHADOWS,
+} from "constants/theme";
 
 interface Props {
   document: Document;
