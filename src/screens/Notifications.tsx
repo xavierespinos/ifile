@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNotifications } from "hooks/useNotifications";
 import { useTranslation } from "hooks/useTranslation";
 import { Notification } from "types/Notification";
+import { formatTimeAgo } from "utils/dateUtils";
 import {
   COLORS,
   UNIT,
@@ -24,33 +25,6 @@ import {
 const Notifications: FC = () => {
   const { t } = useTranslation();
   const { notifications, clearNotifications, isConnected } = useNotifications();
-
-  const formatTimeAgo = (timestamp: Date | string): string => {
-    const now = new Date();
-    const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
-
-    if (isNaN(date.getTime())) {
-      return t("notifications.timeAgo.unknownTime");
-    }
-
-    const diffInMinutes = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60)
-    );
-
-    if (diffInMinutes < 1) return t("notifications.timeAgo.justNow");
-    if (diffInMinutes < 60)
-      return t("notifications.timeAgo.minutesAgo", { count: diffInMinutes });
-
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24)
-      return t("notifications.timeAgo.hoursAgo", { count: diffInHours });
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7)
-      return t("notifications.timeAgo.daysAgo", { count: diffInDays });
-
-    return date.toLocaleDateString();
-  };
 
   const keyExtractor = useCallback((item: Notification) => item.id, []);
 
@@ -76,7 +50,7 @@ const Notifications: FC = () => {
               {t("notifications.document")}
             </Text>
             <Text style={styles.timestamp}>
-              {formatTimeAgo(item.timestamp)}
+              {formatTimeAgo(item.timestamp, t)}
             </Text>
           </View>
         </View>
@@ -162,16 +136,6 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.XL,
     fontWeight: FONT_WEIGHT.BOLD,
     color: COLORS.TEXT_PRIMARY,
-  },
-  connectionStatus: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: UNIT.XS,
-  },
-  connectionIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
   },
   connectionText: {
     fontSize: FONT_SIZE.XS,
