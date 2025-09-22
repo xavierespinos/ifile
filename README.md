@@ -127,6 +127,7 @@ UNIT = {
 
    ```env
    EXPO_PUBLIC_API_BASE_URL=http://localhost:8080
+   EXPO_PUBLIC_SENTRY_DSN= //Not needed to run the app
    ```
 
 4. **Start the development server**

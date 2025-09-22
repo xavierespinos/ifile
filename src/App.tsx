@@ -9,9 +9,7 @@ import "./assets/localization";
 import * as Sentry from "@sentry/react-native";
 
 Sentry.init({
-  dsn:
-    process.env.EXPO_PUBLIC_SENTRY_DSN ||
-    "https://95633aaac091f8e2012e87ba79290dfe@o4510062794964992.ingest.de.sentry.io/4510062796275792",
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || "",
   sendDefaultPii: true,
   enableLogs: false,
 });
