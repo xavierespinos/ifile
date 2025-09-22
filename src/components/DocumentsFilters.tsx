@@ -10,7 +10,14 @@ import Animated, {
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import { ViewMode, SortOption } from "types/types";
 import { useTranslation } from "hooks/useTranslation";
-import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SHADOWS } from "constants/theme";
+import {
+  COLORS,
+  UNIT,
+  BORDER_RADIUS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+  SHADOWS,
+} from "constants/theme";
 
 interface Props extends ViewProps {
   onModeChange?: (mode: ViewMode) => void;
@@ -47,7 +54,11 @@ const DocumentsFilters: FC<Props> = ({
   };
 
   const backgroundAnimatedStyle = useAnimatedStyle(() => {
-    const translateX = interpolate(animatedValue.value, [0, 1], [0, UNIT.XL * 2]);
+    const translateX = interpolate(
+      animatedValue.value,
+      [0, 1],
+      [0, UNIT.XL * 2]
+    );
     return {
       transform: [{ translateX }],
     };
@@ -57,10 +68,18 @@ const DocumentsFilters: FC<Props> = ({
     <>
       <View style={[styles.container, props.style]}>
         <Pressable style={styles.sortButton} onPress={handleSortPress}>
-          <FontAwesome name="sort" size={UNIT.XL} color={COLORS.TEXT_SECONDARY} />
-          <Text style={styles.sortText}>{t('sorting.sortBy')}</Text>
+          <FontAwesome
+            name="sort"
+            size={UNIT.XL}
+            color={COLORS.TEXT_SECONDARY}
+          />
+          <Text style={styles.sortText}>{t("sorting.sortBy")}</Text>
           <View style={styles.divider} />
-          <FontAwesome name="caret-down" size={UNIT.MD + 2} color={COLORS.TEXT_SECONDARY} />
+          <FontAwesome
+            name="caret-down"
+            size={UNIT.MD + 2}
+            color={COLORS.TEXT_SECONDARY}
+          />
         </Pressable>
 
         <View style={styles.selector}>
@@ -75,7 +94,9 @@ const DocumentsFilters: FC<Props> = ({
             <Ionicons
               name="list"
               size={UNIT.XL}
-              color={selectedMode === "list" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY}
+              color={
+                selectedMode === "list" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY
+              }
             />
           </Pressable>
 
@@ -86,7 +107,9 @@ const DocumentsFilters: FC<Props> = ({
             <Ionicons
               name="grid-outline"
               size={UNIT.LG + 2}
-              color={selectedMode === "grid" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY}
+              color={
+                selectedMode === "grid" ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY
+              }
             />
           </Pressable>
         </View>
@@ -94,7 +117,7 @@ const DocumentsFilters: FC<Props> = ({
 
       <ActionSheet ref={sortActionSheetRef} containerStyle={styles.actionSheet}>
         <View style={styles.actionSheetContent}>
-          <Text style={styles.actionSheetTitle}>{t('sorting.sortBy')}</Text>
+          <Text style={styles.actionSheetTitle}>{t("sorting.sortBy")}</Text>
 
           <Pressable
             style={[
@@ -109,10 +132,14 @@ const DocumentsFilters: FC<Props> = ({
                 selectedSort === "name" && styles.selectedSortOptionText,
               ]}
             >
-              {t('sorting.documentName')}
+              {t("sorting.documentName")}
             </Text>
             {selectedSort === "name" && (
-              <Ionicons name="checkmark" size={UNIT.XL} color={COLORS.PRIMARY} />
+              <Ionicons
+                name="checkmark"
+                size={UNIT.XL}
+                color={COLORS.PRIMARY}
+              />
             )}
           </Pressable>
 
@@ -129,10 +156,14 @@ const DocumentsFilters: FC<Props> = ({
                 selectedSort === "date" && styles.selectedSortOptionText,
               ]}
             >
-              {t('sorting.date')}
+              {t("sorting.date")}
             </Text>
             {selectedSort === "date" && (
-              <Ionicons name="checkmark" size={UNIT.XL} color={COLORS.PRIMARY} />
+              <Ionicons
+                name="checkmark"
+                size={UNIT.XL}
+                color={COLORS.PRIMARY}
+              />
             )}
           </Pressable>
         </View>
@@ -161,7 +192,7 @@ const styles = StyleSheet.create({
     width: UNIT.XL * 2,
     height: UNIT.XL + UNIT.LG,
     backgroundColor: COLORS.BACKGROUND_PRIMARY,
-    borderRadius: BORDER_RADIUS.LG,
+    borderRadius: BORDER_RADIUS.MD,
     top: UNIT.XS / 2,
     left: UNIT.XS / 2,
     ...SHADOWS.SMALL,

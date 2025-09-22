@@ -42,12 +42,13 @@ const CustomInput = <T extends FieldValues>({
       name={name}
       rules={rules}
       render={({
-        field: { onChange, onBlur, value },
+        field: { onChange, onBlur, value, ref },
         fieldState: { error },
       }) => (
         <View style={styles.container}>
           {label && <Text style={styles.label}>{label}</Text>}
           <TextInput
+            ref={ref}
             style={[styles.input, style]}
             placeholderTextColor="#999"
             value={value}

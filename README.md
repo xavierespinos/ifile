@@ -147,13 +147,6 @@ npm test
 
 ```
 
-### Test Coverage Areas
-
-- **Components**: UI component rendering and interactions
-- **Utils**: Utility function logic and edge cases
-- **Types**: TypeScript type definitions
-- **API**: HTTP client functions
-
 ## Troubleshooting
 
 ### Common Issues
@@ -191,8 +184,8 @@ Multiple reasons:
 1. React Query: a standard, helps with caching, refetching, error handling etc...
 2. React Hook Form: makes very easy to handle form inputs, errors, form state. Also a standard.
 3. React Reanimated: a standard, makes adding animations really easy. Also i'm used to it.
-4. React navigation: despite the app not having any navigation, it adds a base for future features and screens that could be added.
-5. React Native Actions Sheet: i wanted to use an existent library to implement the modal view. Implementing from scratch with a proper performance and extensability would be time consuming.
+4. React navigation: despite the app not having any navigation, it adds a base for future features and screens that could be added in the future.
+5. React Native Actions Sheet: i wanted to use an existent library to implement the modal view. Implementing from scratch with a proper performance and extensability would be very time consuming.
 6. Expo Vector Icons: as i didn't have access to the app assets, i wanted to have icons in a quick way. In a real environment only needed icons and assets would be added to the app.
 7. i18: it's a standard for app localization
 8. React native toast message: i also didn't want to spend much time in this part (as with the action sheet), as it can be time consuming and was not required in the description.
@@ -201,7 +194,10 @@ Multiple reasons:
 
 ## Future improvements:
 
-1. Also add offline mode for the documents list (asme as for the notifications)
+1. Also add offline mode for the documents list (same as for the notifications)
 2. Improve the testing part. Snapshot tests could be added. Also E2E tests.
 3. With time i would have also deployed the app, maybe just to Firebase App distribution
 4. The styling could also be improved. With a proper design system from a designer would improve a lot
+5. Add icon, splash screen etc... I didn't add it because of time and also wouldn't add
+6. As i didn't have a figma file (or similar), the design is not pixel perfect. Also i have used different icons, colors etc...
+7.

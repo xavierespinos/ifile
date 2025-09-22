@@ -10,7 +10,14 @@ import Divider from "./Divider";
 import CustomButton from "./Button";
 import CustomInput from "./CustomInput";
 import Toast from "react-native-toast-message";
-import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, LAYOUT } from "constants/theme";
+import {
+  COLORS,
+  UNIT,
+  BORDER_RADIUS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+  LAYOUT,
+} from "constants/theme";
 import { useTranslation } from "hooks/useTranslation";
 
 type DocumentFormData = {
@@ -28,15 +35,16 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
   const [selectedFile, setSelectedFile] =
     useState<DocumentPicker.DocumentPickerAsset | null>(null);
 
-  const { control, handleSubmit, reset, setValue } = useForm<DocumentFormData>({
-    defaultValues: {
-      name: "",
-      version: "",
-      file: undefined,
-    },
-    mode: "onBlur",
-    reValidateMode: "onChange",
-  });
+  const { control, handleSubmit, reset, setValue, setFocus } =
+    useForm<DocumentFormData>({
+      defaultValues: {
+        name: "",
+        version: "",
+        file: undefined,
+      },
+      mode: "onBlur",
+      reValidateMode: "onChange",
+    });
 
   const mutation = useMutation({
     mutationFn: async (data: DocumentFormData) => {
@@ -45,7 +53,7 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     onSuccess: () => {
       Toast.show({
         type: "success",
-        text1: t('addDocument.uploadSuccess'),
+        text1: t("addDocument.uploadSuccess"),
       });
       reset();
       actionSheetRef.current?.hide();
@@ -53,8 +61,8 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     onError: (error) => {
       Toast.show({
         type: "error",
-        text1: t('addDocument.uploadError'),
-        text2: t('common.tryAgainLater'),
+        text1: t("addDocument.uploadError"),
+        text2: t("common.tryAgainLater"),
       });
     },
   });
@@ -84,8 +92,8 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: t('addDocument.fileSelectionError'),
-        text2: t('common.tryAgain'),
+        text1: t("addDocument.fileSelectionError"),
+        text2: t("common.tryAgain"),
       });
     }
   };
@@ -102,23 +110,28 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
       containerStyle={styles.actionSheetContainer}
     >
       <View style={styles.buttonRow}>
-        <Text style={styles.title}>{t('addDocument.title')}</Text>
+        <Text style={styles.title}>{t("addDocument.title")}</Text>
         <Pressable onPress={handleClose}>
           <Ionicons name="close" size={24} color={COLORS.TEXT_SECONDARY} />
         </Pressable>
       </View>
-      <Text style={styles.subtitle}>{t('addDocument.documentInformation')}</Text>
+      <Text style={styles.subtitle}>
+        {t("addDocument.documentInformation")}
+      </Text>
 
       <CustomInput
         control={control}
         name="name"
-        label={t('addDocument.name')}
-        placeholder={t('addDocument.namePlaceholder')}
+        label={t("addDocument.name")}
+        placeholder={t("addDocument.namePlaceholder")}
+        onSubmitEditing={() => {
+          setFocus("version");
+        }}
         rules={{
-          required: t('addDocument.nameRequired'),
+          required: t("addDocument.nameRequired"),
           minLength: {
             value: 2,
-            message: t('addDocument.nameMinLength'),
+            message: t("addDocument.nameMinLength"),
           },
         }}
       />
@@ -126,27 +139,29 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
       <CustomInput
         control={control}
         name="version"
-        label={t('addDocument.version')}
-        placeholder={t('addDocument.versionPlaceholder')}
+        label={t("addDocument.version")}
+        placeholder={t("addDocument.versionPlaceholder")}
         rules={{
-          required: t('addDocument.versionRequired'),
+          required: t("addDocument.versionRequired"),
           pattern: {
             value: /^\d+(\.\d+)*$/,
-            message: t('addDocument.versionFormat'),
+            message: t("addDocument.versionFormat"),
           },
         }}
       />
       <View>
-        <Text style={styles.fileLabel}>{t('addDocument.file')}</Text>
+        <Text style={styles.fileLabel}>{t("addDocument.file")}</Text>
         <Pressable onPress={pickDocument} style={styles.chooseFileButton}>
           <AntDesign name="file-add" color={COLORS.PRIMARY} />
           <Text style={styles.chooseFileText}>
-            {selectedFile ? selectedFile.name : t('addDocument.chooseFile')}
+            {selectedFile ? selectedFile.name : t("addDocument.chooseFile")}
           </Text>
         </Pressable>
         {!!selectedFile && selectedFile.size && (
           <Text style={styles.fileInfo}>
-            {t('addDocument.fileSize', { size: (selectedFile.size / 1024).toFixed(1) })}
+            {t("addDocument.fileSize", {
+              size: (selectedFile.size / 1024).toFixed(1),
+            })}
           </Text>
         )}
       </View>
@@ -155,7 +170,7 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
           <Divider />
         </View>
         <CustomButton
-          cta={t('common.submit')}
+          cta={t("common.submit")}
           onPress={handleSubmit(onSubmit)}
           style={styles.button}
           isLoading={mutation.isPending}
