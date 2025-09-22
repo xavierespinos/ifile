@@ -10,7 +10,7 @@ import DocumentCardGrid from "components/DocumentCardGrid";
 import DocumentCardSkeleton from "components/DocumentCardSkeleton";
 import AddDocumentModal from "components/AddDocumentModal";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useMemo, useRef, useState, useCallback } from "react";
+import { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import DocumentsFilters from "components/DocumentsFilters";
 import { ViewMode, SortOption } from "types/types";
 import { sortDocuments } from "utils/sorting";
@@ -32,18 +32,20 @@ const HomeScreen = () => {
   const [selectedSort, setSelectedSort] = useState<SortOption>("name");
   const actionSheetRef = useRef<ActionSheetRef>(null);
 
-  const { isPending, data, refetch, isRefetching } = useQuery({
+  const { isPending, data, refetch, isRefetching, error } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
-    throwOnError(error, query) {
+  });
+
+  useEffect(() => {
+    if (error) {
       Toast.show({
         type: "error",
         text1: t("documents.fetchError"),
         text2: error instanceof Error ? error.message : String(error),
       });
-      return false;
-    },
-  });
+    }
+  }, [error, t]);
 
   const keyExtractor = useCallback((item: Document) => item.id, []);
 
