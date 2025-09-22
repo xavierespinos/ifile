@@ -190,7 +190,7 @@ npm test
    ```
 
 2. **Environment variables not loading**
-3. - Restart the development server after changes
+3. - Restart the development server after changes, clean cache, remove ios folder and remove node modules
 
 4. **Type checking errors**
 
