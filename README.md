@@ -10,6 +10,7 @@ This is the documentation for the App. It includes technical documentation and t
 - **Real-time Notifications**: WebSocket integration for live notifications. Notifications are saved locally, so will still be the same after restarting the app.
 - **Internationalization**: Multi-language support with i18next. Only english has been added
 - **Toast Notifications**: User feedback for actions and errors
+- **Error monitoring**: Sentry integration to monitor logs and performance
 
 ## Tech Stack
 
@@ -202,6 +203,5 @@ Multiple reasons:
 
 1. Also add offline mode for the documents list (asme as for the notifications)
 2. Improve the testing part. Snapshot tests could be added. Also E2E tests.
-3. I wanted to add error monitoring, like Sentry, but didn't have enough time.
-4. With time i would have also deployed the app, maybe just to Firebase App distribution
-5. The styling could also be improved. With a proper design system from a designer would improve a lot
+3. With time i would have also deployed the app, maybe just to Firebase App distribution
+4. The styling could also be improved. With a proper design system from a designer would improve a lot
