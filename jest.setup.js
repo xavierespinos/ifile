@@ -25,6 +25,9 @@ global.WebSocket = class MockWebSocket {
 
 global.fetch = jest.fn();
 
+// Setup environment variables
+process.env.EXPO_PUBLIC_API_BASE_URL = 'http://localhost:8080';
+
 // Setup i18n for testing
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
