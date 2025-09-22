@@ -8,15 +8,28 @@ This is the documentation for the App. It includes technical documentation and t
 - **Document add form**: Form to add a new Document (not connected to API)
 - **Document sorting and view mode**: Toggle between list and grid view. Also sort by date and document name
 - **Real-time Notifications**: WebSocket integration for live notifications. Notifications are saved locally, so will still be the same after restarting the app.
+- **Notifications screen**: List of notifications, whith the ability to clear them
+- **Pull to refresh**: Pull to refresh the list of documents.
 - **Internationalization**: Multi-language support with i18next. Only english has been added
 - **Toast Notifications**: User feedback for actions and errors
 - **Error monitoring**: Sentry integration to monitor logs and performance
+
+## App screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img src="screenshot1.png" alt="App Screenshot 1" width="200"/>
+  <img src="screenshot2.png" alt="App Screenshot 2" width="200"/>
+  <img src="screenshot3.png" alt="App Screenshot 3" width="200"/>
+  <img src="screenshot4.png" alt="App Screenshot 4" width="200"/>
+  <img src="screenshot5.png" alt="App Screenshot 4" width="200"/>
+</div>
 
 ## Tech Stack
 
 - **Framework**: React Native 0.81.4 with Expo SDK 54
 - **Language**: TypeScript
-- **State Management**: TanStack Query (React Query)
+- **Network State Management**: TanStack Query (React Query)
+- **State Management**: Zustand
 - **Form Handling**: React Hook Form
 - **Navigation**: React Navigation
 - **Animations**: React Reanimated
@@ -38,6 +51,7 @@ src/
 ├── navigation/ # Navigation configuration
 ├── screens/ # Screen components
 ├── services/ # External services (WebSocket, etc.)
+├── stores/ # State management stores
 ├── types/ # TypeScript type definitions
 │ └── tests/ # Type tests
 └── utils/ # Utility functions
@@ -189,15 +203,24 @@ Multiple reasons:
 6. Expo Vector Icons: as i didn't have access to the app assets, i wanted to have icons in a quick way. In a real environment only needed icons and assets would be added to the app.
 7. i18: it's a standard for app localization
 8. React native toast message: i also didn't want to spend much time in this part (as with the action sheet), as it can be time consuming and was not required in the description.
-9. React Native async storage: in a real scenario i would use a more performant option, but this was quicker to integrate.
+9. React Native async storage/Zustand: i started using async storage for storing the Notifications locally. First i didn't build a notifications screen, so this approach was working well enough. After adding the screen, the state management got more complicated, so i decided to use zustand to simplify it and also store the notifications locally with it's built in feature.
 10. React native document picker: is the recommended from expo documentation to handle native document selection.
 
 ## Future improvements:
 
 1. Also add offline mode for the documents list (same as for the notifications)
-2. Improve the testing part. Snapshot tests could be added. Also E2E tests.
-3. With time i would have also deployed the app, maybe just to Firebase App distribution
-4. The styling could also be improved. With a proper design system from a designer would improve a lot
+2. Improve the testing part. Snapshot tests could be added. Also E2E tests. Also some features don't have tests as i added them later on (it was not planned), for example the notifications screen.
+3. With time i would have also deployed the app, maybe just to Firebase App distribution.
+4. The styling could also be improved. With a proper design system from a designer would improve a lot.
 5. Add icon, splash screen etc... I didn't add it because of time and also wouldn't add
 6. As i didn't have a figma file (or similar), the design is not pixel perfect. Also i have used different icons, colors etc...
-7.
+
+## Was AI used to implement this project?
+
+The simple and honest answer is yes. I have worked in this project in the same way i would work in my job. Maybe i have used AI a bit more due to time limitations. Also i think AI is already very deep in our sector, so makes no sense to not use the tools we usually use. Also i have taken the chance to use and try tools that i haven't used before (Claude Code).
+
+### How has AI being used?
+
+Mostly to create documentation, tests and refactorings.
+
+Because of limited time i have taken a "make it work first" approach. This way I built a skeleton with the main and critical features. After that continued with refactoring. For example i didn't have a proper design system with constants at the beginning. After that the testing part. Testing takes quite some time to get configured properly, that's why i have used AI in this part.
