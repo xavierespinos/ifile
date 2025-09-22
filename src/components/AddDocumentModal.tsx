@@ -76,6 +76,7 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
       const result = await DocumentPicker.getDocumentAsync({
         type: "*/*",
         copyToCacheDirectory: false,
+        multiple: false,
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {

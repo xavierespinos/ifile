@@ -2,9 +2,21 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNotifications } from "hooks/useNotifications";
 import { useTranslation } from "hooks/useTranslation";
-import { COLORS, UNIT, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, LAYOUT } from "constants/theme";
+import {
+  COLORS,
+  UNIT,
+  BORDER_RADIUS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+  LAYOUT,
+} from "constants/theme";
+import { FC } from "react";
 
-const DocumentsHeader = () => {
+interface Props {
+  onNotificationsPress?: VoidFunction;
+}
+
+const DocumentsHeader: FC<Props> = ({ onNotificationsPress }) => {
   const { t } = useTranslation();
   const { notificationCount, isConnected, clearNotifications } =
     useNotifications();
@@ -13,8 +25,11 @@ const DocumentsHeader = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t('documents.title')}</Text>
-      <Pressable onPress={clearNotifications} testID="notification-button">
+      <Text style={styles.title}>{t("documents.title")}</Text>
+      <Pressable
+        onPress={onNotificationsPress || clearNotifications}
+        testID="notification-button"
+      >
         <View style={styles.iconWrapper}>
           <Ionicons
             name="notifications-outline"
@@ -24,7 +39,9 @@ const DocumentsHeader = () => {
           {!!badgeCount && badgeCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>
-                {badgeCount > 99 ? t('notifications.moreThan99') : String(badgeCount)}
+                {badgeCount > 99
+                  ? t("notifications.moreThan99")
+                  : String(badgeCount)}
               </Text>
             </View>
           )}

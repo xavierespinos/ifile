@@ -18,9 +18,15 @@ import { useTranslation } from "hooks/useTranslation";
 import { Document } from "types/Document";
 import { ListRenderItem } from "react-native";
 import { COLORS, UNIT, LAYOUT } from "constants/theme";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "navigation/AppNavigator";
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 const HomeScreen = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
   const [selectedSort, setSelectedSort] = useState<SortOption>("name");
   const actionSheetRef = useRef<ActionSheetRef>(null);
@@ -90,7 +96,11 @@ const HomeScreen = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
       >
-        <DocumentsHeader />
+        <DocumentsHeader
+          onNotificationsPress={() => {
+            navigation.navigate('Notifications');
+          }}
+        />
         <View style={styles.content}>
           {isPending ? (
             <View style={styles.loadingContainer}>
