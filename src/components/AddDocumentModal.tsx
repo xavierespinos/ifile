@@ -83,13 +83,17 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const file = result.assets[0];
         setSelectedFile(file);
-        setValue("file", file);
 
-        // Auto-fill name if not already filled
-        if (!control._formValues.name && file.name) {
-          const nameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
-          setValue("name", nameWithoutExtension);
-        }
+        // Use setTimeout to defer state updates to the next tick
+        setTimeout(() => {
+          setValue("file", file);
+
+          // Auto-fill name if not already filled
+          if (!control._formValues.name && file.name) {
+            const nameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+            setValue("name", nameWithoutExtension);
+          }
+        }, 0);
       }
     } catch (error) {
       Sentry.captureException(error, {
@@ -134,7 +138,7 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
         label={t("addDocument.name")}
         placeholder={t("addDocument.namePlaceholder")}
         onSubmitEditing={() => {
-          setFocus("version");
+          setTimeout(() => setFocus("version"), 0);
         }}
         rules={{
           required: t("addDocument.nameRequired"),

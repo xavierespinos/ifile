@@ -24,6 +24,12 @@ This is the documentation for the App. It includes technical documentation and t
   <img src="screenshot5.png" alt="App Screenshot 4" width="200"/>
 </div>
 
+## Disclaimers
+
+The app should work fine on both android and ios, but has only been tested on ios because of limited hardware
+
+There is a warning about needing to use the new SafeAreaViewContext library instead of the React Native one, the new one is already being used, probably the warning comes from a dependency version, i haven't taken the time to fix this.
+
 ## Tech Stack
 
 - **Framework**: React Native 0.81.4 with Expo SDK 54
@@ -102,6 +108,15 @@ UNIT = {
 - iOS Simulator (for iOS development)
 - Android Studio (for Android development)
 
+To enable automatic version switching:
+
+- If using nvm: Run nvm use when entering the project folder,
+  or add auto-switching to your shell profile
+- If using fnm: It should automatically switch when you cd
+  into the folder
+- If using volta: Run volta pin node@23.7 to configure
+  automatic switching
+
 ### Installation
 
 1. **Clone the repository**
@@ -136,7 +151,9 @@ UNIT = {
    npm start
    ```
 
-5. **Start the development server**
+   This will run the App in Expo Go. If a proper build is desired execute the next command after this one (stop the execution after the QR code appears)
+
+5. **Run the app on ios device/simulator**
    ```bash
    npm run ios
    ```
@@ -173,7 +190,7 @@ npm test
    ```
 
 2. **Environment variables not loading**
-3. - Restart the development server after changes
+3. - Restart the development server after changes, clean cache, remove ios folder and remove node modules
 
 4. **Type checking errors**
 
@@ -225,3 +242,9 @@ The simple and honest answer is yes. I have worked in this project in the same w
 Mostly to create documentation, tests and refactorings.
 
 Because of limited time i have taken a "make it work first" approach. This way I built a skeleton with the main and critical features. After that continued with refactoring. For example i didn't have a proper design system with constants at the beginning. After that the testing part. Testing takes quite some time to get configured properly, that's why i have used AI in this part.
+
+### Development flow?
+
+I have used a real case flow. Create new branches for each feature, open PR, then merge to main branch.
+
+I have also used squash when mergin. In my opinion it gives a better and more clean commit history in the main branch. If more atomic commits need to be checked, they can be checked in the PRs.
