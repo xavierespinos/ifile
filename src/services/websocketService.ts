@@ -6,6 +6,7 @@ import {
   Notification,
   mapNotificationDTOToNotification,
 } from "types/Notification";
+import * as Sentry from "@sentry/react-native";
 
 class WebSocketService {
   private ws: WebSocket | null = null;
@@ -38,7 +39,18 @@ class WebSocketService {
           const dto: NotificationDTO = JSON.parse(event.data);
           const notification = mapNotificationDTOToNotification(dto);
           this.addToThrottleBuffer(notification);
-        } catch (error) {}
+        } catch (error) {
+          Sentry.captureException(error, {
+            tags: {
+              component: 'websocket',
+              operation: 'onmessage'
+            },
+            extra: {
+              eventData: event.data,
+              wsUrl: WS_URL
+            }
+          });
+        }
       };
 
       this.ws.onclose = () => {
@@ -51,6 +63,16 @@ class WebSocketService {
       };
     } catch (error) {
       this.isConnecting = false;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'websocket',
+          operation: 'connect'
+        },
+        extra: {
+          wsUrl: WS_URL,
+          reconnectAttempts: this.reconnectAttempts
+        }
+      });
     }
   }
 

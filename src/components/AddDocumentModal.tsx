@@ -10,6 +10,7 @@ import Divider from "./Divider";
 import CustomButton from "./Button";
 import CustomInput from "./CustomInput";
 import Toast from "react-native-toast-message";
+import * as Sentry from "@sentry/react-native";
 import {
   COLORS,
   UNIT,
@@ -91,6 +92,13 @@ const AddDocumentModal: FC<Props> = ({ actionSheetRef }) => {
         }
       }
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: "AddDocumentModal",
+          operation: "pickDocument",
+        },
+      });
+
       Toast.show({
         type: "error",
         text1: t("addDocument.fileSelectionError"),
