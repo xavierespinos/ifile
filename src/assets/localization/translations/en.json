@@ -20,7 +20,8 @@
     "version": "Version {{version}}",
     "contributors": "Contributors",
     "attachments": "Attachments",
-    "lastUpdated": "Updated: {{date}}"
+    "lastUpdated": "Updated: {{date}}",
+    "fetchError": "Failed to fetch documents"
   },
   "sorting": {
     "sortBy": "Sort by",

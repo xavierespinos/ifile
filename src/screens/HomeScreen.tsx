@@ -21,8 +21,9 @@ import { COLORS, UNIT, LAYOUT } from "constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "navigation/AppNavigator";
+import Toast from "react-native-toast-message";
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const HomeScreen = () => {
   const { t } = useTranslation();
@@ -34,7 +35,17 @@ const HomeScreen = () => {
   const { isPending, data, refetch, isRefetching } = useQuery({
     queryKey: ["documents"],
     queryFn: fetchDocuments,
+    throwOnError(error, query) {
+      Toast.show({
+        type: "error",
+        text1: t("documents.fetchError"),
+        text2: error instanceof Error ? error.message : String(error),
+      });
+      return false;
+    },
   });
+
+  const keyExtractor = useCallback((item: Document) => item.id, []);
 
   const sortedData = useMemo(() => {
     if (!data) return [];
@@ -51,8 +62,6 @@ const HomeScreen = () => {
     },
     [selectedMode]
   );
-
-  const keyExtractor = useCallback((item: Document) => item.id, []);
 
   const getItemLayout = useCallback(
     (_data: ArrayLike<Document> | null | undefined, index: number) => {
@@ -77,17 +86,17 @@ const HomeScreen = () => {
     [refetch, isRefetching]
   );
 
-  const handleModeChange = useCallback((mode: ViewMode) => {
+  const handleModeChange = (mode: ViewMode) => {
     setSelectedMode(mode);
-  }, []);
+  };
 
-  const handleSortChange = useCallback((sort: SortOption) => {
+  const handleSortChange = (sort: SortOption) => {
     setSelectedSort(sort);
-  }, []);
+  };
 
-  const handleAddDocument = useCallback(() => {
+  const handleAddDocument = () => {
     actionSheetRef.current?.show();
-  }, []);
+  };
 
   return (
     <>
@@ -98,7 +107,7 @@ const HomeScreen = () => {
       >
         <DocumentsHeader
           onNotificationsPress={() => {
-            navigation.navigate('Notifications');
+            navigation.navigate("Notifications");
           }}
         />
         <View style={styles.content}>
@@ -131,13 +140,11 @@ const HomeScreen = () => {
                 }
                 ListEmptyComponent={ListEmptyComponent}
                 refreshControl={refreshControl}
-                // Performance optimizations
                 removeClippedSubviews={true}
                 maxToRenderPerBatch={10}
                 updateCellsBatchingPeriod={50}
                 initialNumToRender={10}
                 windowSize={10}
-                // Reduce re-renders
                 extraData={selectedMode}
               />
             </>
