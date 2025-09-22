@@ -14,6 +14,9 @@ class WebSocketService {
   private maxReconnectAttempts = 5;
   private reconnectInterval = 3000;
   private isConnecting = false;
+  private throttleInterval = 5000; // 5 seconds
+  private pendingNotifications: Notification[] = [];
+  private throttleTimer: NodeJS.Timeout | null = null;
 
   connect(): void {
     if (this.ws?.readyState === WebSocket.OPEN || this.isConnecting) {
@@ -34,7 +37,7 @@ class WebSocketService {
         try {
           const dto: NotificationDTO = JSON.parse(event.data);
           const notification = mapNotificationDTOToNotification(dto);
-          this.notifyListeners("notification", notification);
+          this.addToThrottleBuffer(notification);
         } catch (error) {}
       };
 
@@ -57,6 +60,7 @@ class WebSocketService {
       this.ws = null;
     }
     this.reconnectAttempts = this.maxReconnectAttempts;
+    this.clearThrottleTimer();
   }
 
   private handleReconnect(): void {
@@ -109,6 +113,39 @@ class WebSocketService {
   send(data: unknown): void {
     if (this.isConnected()) {
       this.ws!.send(JSON.stringify(data));
+    }
+  }
+
+  // Used to reduce the number of notifications sent in a short period
+  private addToThrottleBuffer(notification: Notification): void {
+    this.pendingNotifications.push(notification);
+
+    if (!this.throttleTimer) {
+      this.throttleTimer = setTimeout(() => {
+        this.processThrottledNotifications();
+      }, this.throttleInterval);
+    }
+  }
+
+  private processThrottledNotifications(): void {
+    if (this.pendingNotifications.length > 0) {
+      // Send all pending notifications
+      this.pendingNotifications.forEach((notification) => {
+        this.notifyListeners("notification", notification);
+      });
+
+      // Clear the buffer
+      this.pendingNotifications = [];
+    }
+
+    // Clear the timer
+    this.clearThrottleTimer();
+  }
+
+  private clearThrottleTimer(): void {
+    if (this.throttleTimer) {
+      clearTimeout(this.throttleTimer);
+      this.throttleTimer = null;
     }
   }
 }
